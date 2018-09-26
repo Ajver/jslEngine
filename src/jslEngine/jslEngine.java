@@ -4,12 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
+import java.util.LinkedList;
 
 public abstract class jslEngine extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
     // Those variables are for Your using
     public KeyEvent key = null;
     public MouseEvent mouse = null;
+    public jslManager jsl;
 
     // Those functions are to override
     protected abstract void update(float et);
@@ -26,28 +28,96 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onMouseDragged() {}
     protected void onMouseMoved() {}
 
-    // Events on some jslObject (when mouse do something)
-    protected void onEnter() {}
-    protected void onLeave() {}
-    protected void onClick() {}
-    protected void onUnclick() {}
+    // Events on some jslObject (when mouse do something) (to override)
+    protected void onEnter(jslObject o) {}
+    protected void onLeave(jslObject o) {}
+    protected void onClick(jslObject o) {}
+    protected void onUnclick(jslObject o) {}
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Another classes You can use
-
-    public class jslButton {
+    public abstract class jslObject {
+        protected float x, y, w, h;
+        public void setPosition(float x, float y) {
+            setX(x);
+            setY(y);
+        }
+        public void setX(float x) { this.x = x; }
+        public void setY(float y) { this.y = y; }
+        public void setSize(float w, float h) {
+            setW(w);
+            setH(h);
+        }
+        public void setW(float w) { this.w = w; }
+        public void setH(float h) { this.h = h; }
+        public float getX() { return x; }
+        public float getY() { return y; }
+        public float getW() { return w; }
+        public float getH() { return h; }
+        protected void update(float et) {}
+        protected void render(Graphics g) {}
+    }
+    public class jslButtonSettings {
+        public Color bgColor = new Color(100, 100,100);
+        public Color txtColor = new Color(255, 255, 255);
+        public String fontName = "arial";
+        public int fontType = 0;
+        public int fontSize = 16;
+        public Font font = new Font(fontName, fontType, fontSize);
+        public void setFont(String name, int type, int size) { setFont(new Font(name, type, size));}
+        public void setFont(Font font) { this.font = font; }
+    }
+    public class jslButton extends jslObject {
+        private String title;
         public jslButton(String title) {
-            System.out.print(title);
+            this(title, 0, 0);
+        }
+        public jslButton(String title, float x, float y) {
+            this(title, x, y, 100, 25);
+        }
+        public jslButton(String title, float x, float y, float w, float h) {
+            this.title = title;
+            setPosition(x, y);
+            setSize(w, h);
+        }
+        public void setTitle(String title) { this.title = title; }
+        public String getTitle() { return title; }
+        public void render(Graphics g) {
+            g.setColor(new Color(100, 100,100));
+            g.fillRect((int)x, (int)y, (int)w, (int)h);
+            g.setColor(new Color(255, 255,255));
+
+            FontMetrics f = g.getFontMetrics();
+            float sx = x + (w - f.stringWidth(title)) / 2.0f;
+            float sy = y + (f.getAscent() + (h - (f.getAscent() + f.getDescent())) / 2);
+
+            g.drawString(title, (int)sx, (int)sy);
         }
     }
+
+//    public class jslVector {
+//        public float x, y;
+//        public jslVector() { this(0, 0); }
+//        public jslVector(float x, float y) { set(x, y); }
+//        public void set(float x, float y) { this.x = x; this.y = y; }
+//    }
 
     // Object of this class is created
     public class jslManager {
-        public jslManager() {
-            
+        private LinkedList<jslObject> objects = new LinkedList<>();
+        public jslManager() {}
+        public jslButton newButton() {
+            jslButton button = new jslButton("Button");
+            objects.add(button);
+            return button;
+        }
+        public void update(float et) {
+            for(jslObject o : objects) { o.update(et); }
+        }
+        public void render(Graphics g) {
+            for(jslObject o : objects) { o.render(g); }
         }
     }
-
     public enum WindowType {
         jslNormal, // Resizable
         jslStatic, // No resizable
@@ -112,9 +182,14 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         this.addKeyListener(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        jsl = new jslManager();
 
         this.thread = new Thread(this);
         this.thread.start();
+    }
+    private void jslUpdate(float et) {
+        jsl.update(et);
+        update(et);
     }
     private void jslRender() {
         BufferStrategy bs = this.getBufferStrategy();
@@ -125,6 +200,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         Graphics g = bs.getDrawGraphics();
         g.setColor(new Color(30, 30, 30));
         g.fillRect(0, 0, WW(), WH());
+        jsl.render(g);
         render(g);
         g.dispose();
         bs.show();
@@ -140,7 +216,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         int fpsCounter = 0;
         while(isRunning) {
             start = System.currentTimeMillis();
-            this.update(elapsedTime);
+            this.jslUpdate(elapsedTime);
             this.jslRender();
             fpsCounter++;
             stop = System.currentTimeMillis();

@@ -11,7 +11,8 @@ public class MainClass extends jslEngine {
         start("jsl Tests", 600, 400);
         setSize(300, 400);
 
-        new jslButton("hehehe");
+        jslButton btn = jsl.newButton();
+        btn.setTitle("Hello");
     }
 
     protected void update(float et) {
