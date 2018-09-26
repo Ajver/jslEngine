@@ -134,6 +134,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
 
     // Object of this class is created (and called "jsl")
     public class jslManager {
+        public jslSettings defaulButtonSettings = new jslSettings();
+        public jslSettings onHoverButtonSettings = defaulButtonSettings;
         private LinkedList<jslObject> objects = new LinkedList<>();
         public jslManager() {}
         public jslButton newButton() {
@@ -147,6 +149,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public jslButton newButton(String title, float x, float y, float w, float h) {
             jslButton button = new jslButton(title, x, y, w, h);
+            button.setDefaultSettings(defaulButtonSettings);
+            button.setOnHoverSettings(onHoverButtonSettings);
             add(button);
             return button;
         }

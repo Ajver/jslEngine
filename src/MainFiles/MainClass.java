@@ -17,9 +17,10 @@ public class MainClass extends jslEngine {
         defaultSettings.bgColor = new Color(255, 100,100);
         onHoverSettings.bgColor = new Color(200, 0,255);
 
+        jsl.defaulButtonSettings = defaultSettings;
+        jsl.onHoverButtonSettings = onHoverSettings;
+
         jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
-        btn.setDefaultSettings(defaultSettings);
-        btn.setOnHoverSettings(onHoverSettings);
 
         System.out.println("Button xy wh: " + btn.getX());
     }
