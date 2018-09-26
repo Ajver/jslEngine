@@ -31,6 +31,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onMouseMoved() {}
 
     // Events on some jslObject (when mouse do something) (to override)
+    protected void onMove(jslObject o) {}
+    protected void onDrag(jslObject o) {}
     protected void onEnter(jslObject o) {}
     protected void onLeave(jslObject o) {}
     protected void onClick(jslObject o) {}
@@ -38,28 +40,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Another classes You can use
-    public abstract class jslObject {
-        protected float x, y, w, h;
-        public void setPosition(float x, float y) {
-            setX(x);
-            setY(y);
-        }
-        public void setX(float x) { this.x = x; }
-        public void setY(float y) { this.y = y; }
-        public void setSize(float w, float h) {
-            setW(w);
-            setH(h);
-        }
-        public void setW(float w) { this.w = w; }
-        public void setH(float h) { this.h = h; }
-        public float getX() { return x; }
-        public float getY() { return y; }
-        public float getW() { return w; }
-        public float getH() { return h; }
-        protected void update(float et) {}
-        protected void render(Graphics g) {}
-    }
-    public class jslButtonSettings {
+    public class jslSettings {
         public boolean fontChanged = true;
         public Color bgColor = new Color(100, 100,100);
         public Color txtColor = new Color(255, 255, 255);
@@ -78,9 +59,43 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public int getFontType() { return fontType; }
         public int getFontSize() { return fontSize; }
     }
+    public abstract class jslObject {
+        protected float x, y, w, h;
+        public jslSettings settings;
+        protected jslSettings defaultSettings;
+        protected jslSettings onHoverSettings;
+        public boolean hover = false;
+        public void setPosition(float x, float y) {
+            setX(x);
+            setY(y);
+        }
+        public void setX(float x) { this.x = x; }
+        public void setY(float y) { this.y = y; }
+        public void setSize(float w, float h) {
+            setW(w);
+            setH(h);
+        }
+        public void setW(float w) { this.w = w; }
+        public void setH(float h) { this.h = h; }
+        public float getX() { return x; }
+        public float getY() { return y; }
+        public float getW() { return w; }
+        public float getH() { return h; }
+        protected void update(float et) {}
+        protected void render(Graphics g) {}
+        public boolean isPointIn(float px, float py) {
+            if(px >= x) if(px <= x+w) if(py >= y) return py <= y+h;
+            return false;
+        }
+        public void onEnter() { this.settings = onHoverSettings; }
+        public void onLeave() { this.settings = defaultSettings; }
+        public void setDefaultSettings(jslSettings s) { this.defaultSettings = this.settings = s; }
+        public void setOnHoverSettings(jslSettings s) { this.onHoverSettings = s; }
+        public jslSettings getDefaultSettings() { return defaultSettings; }
+        public jslSettings getOnHoverSettings() { return onHoverSettings; }
+    }
     public class jslButton extends jslObject {
         private String title;
-        private jslButtonSettings settings = new jslButtonSettings();
         public jslButton(String title) {
             this(title, 0, 0);
         }
@@ -91,6 +106,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             this.title = title;
             setPosition(x, y);
             setSize(w, h);
+            onHoverSettings = defaultSettings = settings = new jslSettings();
         }
         public void setTitle(String title) { this.title = title; }
         public String getTitle() { return title; }
@@ -116,20 +132,48 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
 //        public void set(float x, float y) { this.x = x; this.y = y; }
 //    }
 
-    // Object of this class is created
+    // Object of this class is created (and called "jsl")
     public class jslManager {
         private LinkedList<jslObject> objects = new LinkedList<>();
         public jslManager() {}
         public jslButton newButton() {
-            jslButton button = new jslButton("Button");
-            objects.add(button);
+            return newButton("Button");
+        }
+        public jslButton newButton(String title) {
+            return newButton(title, 0, 0);
+        }
+        public jslButton newButton(String title, float x, float y) {
+            return newButton(title, x, y, 100, 25);
+        }
+        public jslButton newButton(String title, float x, float y, float w, float h) {
+            jslButton button = new jslButton(title, x, y, w, h);
+            add(button);
             return button;
         }
+        public void add(jslObject o) { objects.add(o); }
         public void update(float et) {
             for(jslObject o : objects) { o.update(et); }
         }
         public void render(Graphics g) {
             for(jslObject o : objects) { o.render(g); }
+        }
+        public void mouseMoved(MouseEvent e) {
+            for(int i=objects.size()-1; i>=0; i--) {
+                jslObject o = objects.get(i);
+                if(o.isPointIn(e.getX(), e.getY())) {
+                    onMove(o);
+                    if(!o.hover) {
+                        o.hover = true;
+                        o.onEnter();
+                        onEnter(o);
+                    }
+                    return;
+                }else if(o.hover) {
+                    o.hover = false;
+                    o.onLeave();
+                    onLeave(o);
+                }
+            }
         }
     }
     public enum WindowType {
@@ -253,7 +297,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public void mousePressed(MouseEvent e) { this.mouse = e; onMousePressed(); }
     public void mouseReleased(MouseEvent e) { this.mouse = e; onMouseReleased(); }
     public void mouseDragged(MouseEvent e) { this.mouse = e; onMouseDragged(); }
-    public void mouseMoved(MouseEvent e) { this.mouse = e; onMouseMoved(); }
+    public void mouseMoved(MouseEvent e) { this.mouse = e; jsl.mouseMoved(e); onMouseMoved(); }
 
     public int WW() { return getWidth(); }
     public int WH() { return getHeight(); }

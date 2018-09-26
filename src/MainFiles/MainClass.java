@@ -7,12 +7,21 @@ import java.util.Random;
 
 public class MainClass extends jslEngine {
 
+    private jslSettings defaultSettings = new jslSettings();
+    private jslSettings onHoverSettings = new jslSettings();
+
     public MainClass() {
         start("jsl Tests", 600, 400);
         setSize(300, 400);
 
-        jslButton btn = jsl.newButton();
-        btn.setTitle("Hello");
+        defaultSettings.bgColor = new Color(255, 100,100);
+        onHoverSettings.bgColor = new Color(200, 0,255);
+
+        jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
+        btn.setDefaultSettings(defaultSettings);
+        btn.setOnHoverSettings(onHoverSettings);
+
+        System.out.println("Button xy wh: " + btn.getX());
     }
 
     protected void update(float et) {
