@@ -3,6 +3,8 @@ package MainFiles;
 import jslEngine.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 import java.util.Random;
 
 public class MainClass extends jslEngine {
@@ -14,15 +16,15 @@ public class MainClass extends jslEngine {
         start("jsl Tests", 600, 400);
         setSize(300, 400);
 
-        defaultSettings.bgColor = new Color(255, 100,100);
-        onHoverSettings.bgColor = new Color(0, 155, 255);
+        defaultSettings.bgColor = new Color(141, 12, 206);
+        onHoverSettings.bgColor = new Color(6, 119, 132);
+        onHoverSettings.txtColor = new Color(0, 0, 0);
 
         jsl.defaulButtonSettings = defaultSettings;
         jsl.onHoverButtonSettings = onHoverSettings;
 
         jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
-        btn.setVelR(1.7f);
-        btn.setRotateToCenter();
+        btn.setVelR(1.0f);
     }
 
     protected void update(float et) {
@@ -31,6 +33,12 @@ public class MainClass extends jslEngine {
 //                new Random().nextInt(10000);
 //            }
 //        }
+    }
+
+    protected void onKeyPressed() {
+        if(key.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(-1);
+        }
     }
 
     protected void render(Graphics g) {

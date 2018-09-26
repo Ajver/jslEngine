@@ -135,6 +135,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             this.title = title;
             setPosition(x, y);
             setSize(w, h);
+            setRotateToCenter();
             onHoverSettings = defaultSettings = settings = new jslSettings();
         }
         public void setTitle(String title) { this.title = title; }
