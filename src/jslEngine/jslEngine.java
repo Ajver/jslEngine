@@ -43,7 +43,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
 
     // Object of this class is created
     public class jslManager {
-
+        public jslManager() {
+            
+        }
     }
 
     public enum WindowType {
