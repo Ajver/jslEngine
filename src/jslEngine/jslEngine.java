@@ -160,7 +160,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             if(rotate != 0.0f) {
                 ((Graphics2D) g).rotate(rotate, rotateX, rotateY);
             }
-
             g.setColor(settings.bgColor);
             g.fillRect((int)getX(), (int)getY(), (int)getW(), (int)getH());
             g.setColor(settings.txtColor);
@@ -172,21 +171,12 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                 settings.fontChanged = false;
             }
             g.drawString(title, (int)settings.txtX, (int)settings.txtY);
-
             if(rotate != 0.0f) {
                 ((Graphics2D) g).rotate(-rotate, rotateX, rotateY);
             }
             g.translate(-(int)translateX, -(int)translateY);
         }
     }
-
-//    public class jslVector {
-//        public float x, y;
-//        public jslVector() { this(0, 0); }
-//        public jslVector(float x, float y) { set(x, y); }
-//        public void set(float x, float y) { this.x = x; this.y = y; }
-//    }
-
     // Object of this class is created (and called "jsl")
     public class jslManager {
         public jslSettings defaulButtonSettings = new jslSettings();
