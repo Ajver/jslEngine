@@ -73,6 +73,15 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void setX(float x) { this.x = x; }
         public void setY(float y) { this.y = y; }
+        public void setSize(float w, float h) {
+            setW(w);
+            setH(h);
+        }
+        public void setW(float w) { this.w = w; }
+        public void setH(float h) { this.h = h; }
+        public void setVelX(float velX) { this.velX = velX; }
+        public void setVelY(float velY) { this.velY = velY; }
+        public void setVelR(float velR) { this.velR = velR; }
         public void setRotateToCenter() { setRotatePosition(getX() + getW()/2.0f, getY() + getH()/2.0f);}
         public void setRotate(float rotate) { this.rotate = rotate; }
         public void setRotatePosition(float rx, float ry) {
@@ -81,16 +90,16 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void setRotateX(float rx) { this.rotateX = rx; }
         public void setRotateY(float ry) { this.rotateY = ry; }
-        public void setSize(float w, float h) {
-            setW(w);
-            setH(h);
-        }
-        public void setW(float w) { this.w = w; }
-        public void setH(float h) { this.h = h; }
         public float getX() { return x; }
         public float getY() { return y; }
         public float getW() { return w; }
         public float getH() { return h; }
+        public float getVelX() { return velX; }
+        public float getVelY() { return velY; }
+        public float getVelR() { return velR; }
+        public float getRotate() { return rotate; }
+        public float getRotateX() { return rotateX; }
+        public float getRotateY() { return rotateY; }
         protected void update(float et) {}
         protected void render(Graphics g) {}
         public boolean isPointIn(float px, float py) {
