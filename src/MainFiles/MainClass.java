@@ -15,7 +15,7 @@ public class MainClass extends jslEngine {
         setSize(300, 400);
 
         defaultSettings.bgColor = new Color(255, 100,100);
-        onHoverSettings.bgColor = new Color(200, 0,255);
+        onHoverSettings.bgColor = new Color(0, 155, 255);
 
         jsl.defaulButtonSettings = defaultSettings;
         jsl.onHoverButtonSettings = onHoverSettings;
