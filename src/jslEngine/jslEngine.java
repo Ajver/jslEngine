@@ -122,6 +122,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         protected void render(Graphics g) {}
         public boolean isPointIn(float px, float py) {
+            px -= translateX;
+            py -= translateY;
             if(rotate != 0.0f) {
                 float diffX = px - rotateX;
                 float diffY = rotateY - py;

@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$WindowType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$WindowType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$jslButton.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$jslButton.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$jslManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine$jslManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -33,12 +38,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="6727" />
+          <entry key="java" value="6756" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6727" />
+          <entry key="JAVA" value="6756" />
         </counts>
       </usages-collector>
     </session>
@@ -48,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
+            <state relative-caret-position="375">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2413#2414#0" expanded="true" />
@@ -62,8 +67,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2299">
-              <caret line="232" lean-forward="true" selection-start-line="232" selection-end-line="232" />
+            <state relative-caret-position="205">
+              <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2672#2673#0" expanded="true" />
@@ -145,7 +150,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537980904175" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537983954803" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -236,8 +241,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
+        <state relative-caret-position="375">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2413#2414#0" expanded="true" />
@@ -248,8 +253,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2299">
-          <caret line="232" lean-forward="true" selection-start-line="232" selection-end-line="232" />
+        <state relative-caret-position="205">
+          <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2672#2673#0" expanded="true" />
