@@ -100,7 +100,11 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public float getRotate() { return rotate; }
         public float getRotateX() { return rotateX; }
         public float getRotateY() { return rotateY; }
-        protected void update(float et) {}
+        protected void update(float et) {
+            x += velX;
+            y += velY;
+            rotate += velR;
+        }
         protected void render(Graphics g) {}
         public boolean isPointIn(float px, float py) {
             if(px >= x) if(px <= x+w) if(py >= y) return py <= y+h;
@@ -130,6 +134,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public void setTitle(String title) { this.title = title; }
         public String getTitle() { return title; }
         public void render(Graphics g) {
+            if(rotate != 0.0f) {
+                ((Graphics2D) g).rotate(rotate, rotateX, rotateY);
+            }
             g.setColor(settings.bgColor);
             g.fillRect((int)x, (int)y, (int)w, (int)h);
             g.setColor(settings.txtColor);
@@ -141,6 +148,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                 settings.fontChanged = false;
             }
             g.drawString(title, (int)settings.txtX, (int)settings.txtY);
+            if(rotate != 0.0f) {
+                ((Graphics2D) g).rotate(-rotate, rotateX, rotateY);
+            }
         }
     }
 
