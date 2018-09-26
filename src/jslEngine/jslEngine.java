@@ -1,5 +1,7 @@
 package jslEngine;
 
+import com.sun.scenario.Settings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -58,17 +60,27 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         protected void render(Graphics g) {}
     }
     public class jslButtonSettings {
+        public boolean fontChanged = true;
         public Color bgColor = new Color(100, 100,100);
         public Color txtColor = new Color(255, 255, 255);
-        public String fontName = "arial";
-        public int fontType = 0;
-        public int fontSize = 16;
+        public float txtX, txtY;
+        private String fontName = "arial";
+        private int fontType = 0;
+        private int fontSize = 16;
         public Font font = new Font(fontName, fontType, fontSize);
-        public void setFont(String name, int type, int size) { setFont(new Font(name, type, size));}
-        public void setFont(Font font) { this.font = font; }
+        public void setFontName(String name) { setFont(name, fontType, fontSize); }
+        public void setFontType(int type) { setFont(fontName, type, fontSize); }
+        public void setFontSize(int size) { setFont(fontName, fontType, size); }
+        public void setFont(String name, int type, int size) { setFont(new Font(name, type, size)); }
+        public void setFont(Font font) { this.font = font; fontChanged = false; }
+        public Font getFont() { return font; }
+        public String getFontName() { return fontName; }
+        public int getFontType() { return fontType; }
+        public int getFontSize() { return fontSize; }
     }
     public class jslButton extends jslObject {
         private String title;
+        private jslButtonSettings settings = new jslButtonSettings();
         public jslButton(String title) {
             this(title, 0, 0);
         }
@@ -83,15 +95,17 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public void setTitle(String title) { this.title = title; }
         public String getTitle() { return title; }
         public void render(Graphics g) {
-            g.setColor(new Color(100, 100,100));
+            g.setColor(settings.bgColor);
             g.fillRect((int)x, (int)y, (int)w, (int)h);
-            g.setColor(new Color(255, 255,255));
-
-            FontMetrics f = g.getFontMetrics();
-            float sx = x + (w - f.stringWidth(title)) / 2.0f;
-            float sy = y + (f.getAscent() + (h - (f.getAscent() + f.getDescent())) / 2);
-
-            g.drawString(title, (int)sx, (int)sy);
+            g.setColor(settings.txtColor);
+            g.setFont(settings.font);
+            if(settings.fontChanged) {
+                FontMetrics f = g.getFontMetrics();
+                settings.txtX = x + (w - f.stringWidth(title)) / 2.0f;
+                settings.txtY = y + (f.getAscent() + (h - (f.getAscent() + f.getDescent())) / 2.0f);
+                settings.fontChanged = false;
+            }
+            g.drawString(title, (int)settings.txtX, (int)settings.txtY);
         }
     }
 
