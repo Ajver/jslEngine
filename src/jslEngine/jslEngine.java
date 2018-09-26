@@ -101,9 +101,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public float getRotateX() { return rotateX; }
         public float getRotateY() { return rotateY; }
         protected void update(float et) {
-            x += velX;
-            y += velY;
-            rotate += velR;
+            x += velX * et;
+            y += velY * et;
+            rotate += velR * et;
         }
         protected void render(Graphics g) {}
         public boolean isPointIn(float px, float py) {

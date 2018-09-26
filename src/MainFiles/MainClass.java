@@ -21,6 +21,8 @@ public class MainClass extends jslEngine {
         jsl.onHoverButtonSettings = onHoverSettings;
 
         jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
+        btn.setVelR(1.7f);
+        btn.setRotateToCenter();
     }
 
     protected void update(float et) {
