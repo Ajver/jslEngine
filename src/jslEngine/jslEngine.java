@@ -61,6 +61,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     }
     public abstract class jslObject {
         protected float x, y, w, h;
+        protected float velX, velY, velR;
+        protected float rotate, rotateX, rotateY;
         public jslSettings settings;
         protected jslSettings defaultSettings;
         protected jslSettings onHoverSettings;
@@ -71,6 +73,14 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void setX(float x) { this.x = x; }
         public void setY(float y) { this.y = y; }
+        public void setRotateToCenter() { setRotatePosition(getX() + getW()/2.0f, getY() + getH()/2.0f);}
+        public void setRotate(float rotate) { this.rotate = rotate; }
+        public void setRotatePosition(float rx, float ry) {
+            setRotateX(rx);
+            setRotateY(ry);
+        }
+        public void setRotateX(float rx) { this.rotateX = rx; }
+        public void setRotateY(float ry) { this.rotateY = ry; }
         public void setSize(float w, float h) {
             setW(w);
             setH(h);
