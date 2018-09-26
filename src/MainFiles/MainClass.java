@@ -4,8 +4,6 @@ import jslEngine.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
-import java.util.Random;
 
 public class MainClass extends jslEngine {
 
@@ -25,6 +23,7 @@ public class MainClass extends jslEngine {
 
         jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
         btn.setVelR(1.0f);
+        btn.translateX(200);
     }
 
     protected void update(float et) {

@@ -63,6 +63,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         protected float x, y, w, h;
         protected float velX, velY, velR;
         protected float rotate, rotateX, rotateY;
+        protected float translateX, translateY;
         public jslSettings settings;
         protected jslSettings defaultSettings;
         protected jslSettings onHoverSettings;
@@ -90,7 +91,19 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void setRotateX(float rx) { this.rotateX = rx; }
         public void setRotateY(float ry) { this.rotateY = ry; }
-        public float getX() { return x; }
+        public void translate(float tx, float ty) {
+            translateX(tx);
+            translateY(ty);
+        }
+        public void translateX(float tx) { this.translateX += tx; }
+        public void translateY(float ty) { this.translateY += ty; }
+        public void setTranslate(float tx, float ty) {
+            setTranslateX(tx);
+            setTranslateY(ty);
+        }
+        public void setTranslateX(float tx) { this.translateX = tx; }
+        public void setTranslateY(float ty) { this.translateY = ty; }
+        public float getX() { return x;}
         public float getY() { return y; }
         public float getW() { return w; }
         public float getH() { return h; }
@@ -100,6 +113,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public float getRotate() { return rotate; }
         public float getRotateX() { return rotateX; }
         public float getRotateY() { return rotateY; }
+        public float getTranslateX() { return translateX; }
+        public float getTranslateY() { return translateY; }
         protected void update(float et) {
             x += velX * et;
             y += velY * et;
@@ -113,7 +128,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                 px = (int)(Math.cos(rotate)*diffX - Math.sin(rotate)*diffY + rotateX);
                 py = (int)(Math.sin(rotate)*diffX + Math.cos(rotate)*diffY + rotateY);
             }
-            if(px >= x) if(px <= x+w) if(py >= y) return py <= y+h;
+            if(px >= getX()) if(px <= getX()+getW()) if(py >= getY()) return py <= getY()+getH();
             return false;
         }
         public void onEnter() { this.settings = onHoverSettings; }
@@ -141,23 +156,27 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public void setTitle(String title) { this.title = title; }
         public String getTitle() { return title; }
         public void render(Graphics g) {
+            g.translate((int)translateX, (int)translateY);
             if(rotate != 0.0f) {
                 ((Graphics2D) g).rotate(rotate, rotateX, rotateY);
             }
+
             g.setColor(settings.bgColor);
-            g.fillRect((int)x, (int)y, (int)w, (int)h);
+            g.fillRect((int)getX(), (int)getY(), (int)getW(), (int)getH());
             g.setColor(settings.txtColor);
             g.setFont(settings.font);
             if(settings.fontChanged) {
                 FontMetrics f = g.getFontMetrics();
-                settings.txtX = x + (w - f.stringWidth(title)) / 2.0f;
-                settings.txtY = y + (f.getAscent() + (h - (f.getAscent() + f.getDescent())) / 2.0f);
+                settings.txtX = getX() + (getW() - f.stringWidth(title)) / 2.0f;
+                settings.txtY = getY() + (f.getAscent() + (getH() - (f.getAscent() + f.getDescent())) / 2.0f);
                 settings.fontChanged = false;
             }
             g.drawString(title, (int)settings.txtX, (int)settings.txtY);
+
             if(rotate != 0.0f) {
                 ((Graphics2D) g).rotate(-rotate, rotateX, rotateY);
             }
+            g.translate(-(int)translateX, -(int)translateY);
         }
     }
 
