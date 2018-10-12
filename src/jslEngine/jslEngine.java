@@ -1,10 +1,13 @@
 package jslEngine;
 
+import sun.awt.image.ImageWatched;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public abstract class jslEngine extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
@@ -27,7 +30,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onMouseReleased() {}
     protected void onMouseDragged() {}
     protected void onMouseMoved() {}
-
+                         
     // Events on some jslObject (when mouse do something) (to override)
     protected void onMove(jslObject o) {}
     protected void onDrag(jslObject o) {}
@@ -38,17 +41,36 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Another classes You can use
-    public class jslSettings {
-        public boolean isVisible = true;
-        public boolean isRendering = true;
-        public boolean fontChanged = true;
-        public Color bgColor = new Color(100, 100,100);
-        public Color txtColor = new Color(255, 255, 255);
-        public float txtX, txtY;
-        private String fontName = "arial";
-        private int fontType = 0;
-        private int fontSize = 16;
-        public Font font = new Font(fontName, fontType, fontSize);
+    public class jslPropertiesList {
+        private LinkedList<jslProperties> props = new LinkedList<>();
+        public void clear() { props.clear(); }
+        public void add(jslProperties pr) { if (!contains(pr)) { props.add(pr); } }
+        public void remove(jslProperties pr) { while (contains(pr)) { props.remove(pr); } }
+        public void remove(int nr) { if(nr >= 0 && nr < size()) { remove(props.get(nr)); } }
+        public void toggle(jslProperties pr) { if(contains(pr)) { remove(pr); } else { add(pr); } }
+        public jslProperties get(int nr) { if(nr >= 0 && nr < size()) { return props.get(nr); } return null; }
+        public LinkedList<jslProperties> getAll() { return props; }
+        public boolean contains(jslProperties pr) { return props.contains(pr); }
+        public int size() { return props.size(); }
+        public jslProperties get() {
+            jslProperties prop = new jslProperties();
+
+            
+
+            return prop;
+        }
+    }
+    public class jslProperties {
+        public Boolean isVisible = null;
+        public Boolean fontChanged = null;
+        public Color bgColor = null;
+        public Color txtColor = null;
+        public Float txtX = null;
+        public Float txtY = null;
+        private String fontName = null;
+        private Integer fontType = null;
+        private Integer fontSize = null;
+        public Font font = null;
         public void setFontName(String name) { setFont(name, fontType, fontSize); }
         public void setFontType(int type) { setFont(fontName, type, fontSize); }
         public void setFontSize(int size) { setFont(fontName, fontType, size); }
@@ -56,17 +78,15 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public void setFont(Font font) { this.font = font; fontChanged = false; }
         public Font getFont() { return font; }
         public String getFontName() { return fontName; }
-        public int getFontType() { return fontType; }
-        public int getFontSize() { return fontSize; }
+        public Integer getFontType() { return fontType; }
+        public Integer getFontSize() { return fontSize; }
     }
     public abstract class jslObject {
         protected float x, y, w, h;
         protected float velX, velY, velR;
         protected float rotate, rotateX, rotateY;
         protected float translateX, translateY;
-        public jslSettings settings = new jslSettings();
-        protected jslSettings defaultSettings = new jslSettings();
-        protected jslSettings onHoverSettings = new jslSettings();
+        public jslPropertiesList propList = new jslPropertiesList();
         public boolean hover = false;
         public void setPosition(float x, float y) {
             setX(x);
@@ -212,17 +232,15 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void render(Graphics g) {
             for(jslObject o : objects) {
-                if(o.settings.isVisible) {
-                    if(o.settings.isRendering) {
-                        o.render(g);
-                    }
+                if(o.settings.isVisible.peek()) {
+                    o.render(g);
                 }
             }
         }
         public void mouseMoved(MouseEvent e) {
             for(int i=objects.size()-1; i>=0; i--) {
                 jslObject o = objects.get(i);
-                if (o.settings.isVisible) {
+                if (o.settings.isVisible.peek()) {
                     if (o.isPointIn(e.getX(), e.getY())) {
                         o.onMove();
                         onMove(o);
@@ -251,14 +269,14 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void mouseDragged(MouseEvent e) {
             if(clickedOb != null) {
-                if (clickedOb.settings.isVisible) {
+                if (clickedOb.settings.isVisible.peek()) {
                     clickedOb.onDrag();
                     onDrag(clickedOb);
                 }
             }else {
                 for (int i = objects.size() - 1; i >= 0; i--) {
                     jslObject o = objects.get(i);
-                    if (o.settings.isVisible) {
+                    if (o.settings.isVisible.peek()) {
                         if (o.isPointIn(e.getX(), e.getY())) {
                             clickedOb = o;
                             o.onDrag();
@@ -272,11 +290,13 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public void mousePressed(MouseEvent e) {
             for(int i=objects.size()-1; i>=0; i--) {
                 jslObject o = objects.get(i);
-                if(o.isPointIn(e.getX(), e.getY())) {
-                    clickedOb = o;
-                    o.onClick();
-                    onClick(o);
-                    return;
+                if (o.settings.isVisible.peek()) {
+                    if (o.isPointIn(e.getX(), e.getY())) {
+                        clickedOb = o;
+                        o.onClick();
+                        onClick(o);
+                        return;
+                    }
                 }
             }
         }
