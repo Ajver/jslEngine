@@ -282,19 +282,26 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             }
         }
         public void mouseReleased(MouseEvent e) {
-            clickedOb = null;
-            for(int i=objects.size()-1; i>=0; i--) {
-                jslObject o = objects.get(i);
-                o.onUnclick();
-                onUnclick(o);
-                return;
+            if(clickedOb != null) {
+                for(int i=objects.size()-1; i>=0; i--) {
+                    jslObject o = objects.get(i);
+                    if(o.isPointIn(e.getX(), e.getY())) {
+                        if(clickedOb == o) {
+                            o.onUnclick();
+                            onUnclick(o);
+                        }
+                        clickedOb = null;
+                        return;
+                    }
+                }
+                clickedOb = null;
             }
         }
     }
     public enum WindowType {
         jslNormal, // Resizable
         jslStatic, // No resizable
-        jslFullscreen
+        jslFullscreen   // No resizable + no decorations
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
