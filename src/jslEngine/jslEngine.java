@@ -390,8 +390,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     // Main loop
     public void run() {
         this.requestFocus();
-        long start = 0;
-        long stop = 0;
+        long start, stop;
         float elapsedTime = 0.0f;
         long fpsTimer = System.currentTimeMillis();
         int fpsCounter = 0;
