@@ -310,6 +310,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Private variables used to run
     private static final long serialVersionUID = 8619356773422621193L;
@@ -322,7 +323,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private int fps = 0;
 
     // Functions for window controlling
-    protected void createWindow(String title, int w, int h, WindowType type) {
+    private void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
         isWindow = true;
         frame = new JFrame(title);
@@ -425,7 +426,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public void mouseReleased(MouseEvent e) { this.mouse = e; jsl.mouseReleased(e); onMouseReleased(); }
     public void mouseDragged(MouseEvent e) { this.mouse = e; jsl.mouseDragged(e); onMouseDragged(); }
     public void mouseMoved(MouseEvent e) { this.mouse = e; jsl.mouseMoved(e); onMouseMoved(); }
-
     public int WW() { return getWidth(); }
     public int WH() { return getHeight(); }
     public int getFpsCount() { return fps; }
