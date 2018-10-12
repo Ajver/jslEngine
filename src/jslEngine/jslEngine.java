@@ -1,7 +1,5 @@
 package jslEngine;
 
-import com.sun.scenario.Settings;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -187,7 +185,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     }
     // Object of this class is created (and called "jsl")
     public class jslManager {
-        private jslObject clickedOb = null;
+        private jslObject clickedOb = null, hoveredOb = null;
         public jslSettings defaulButtonSettings = new jslSettings();
         public jslSettings onHoverButtonSettings = defaulButtonSettings;
         private LinkedList<jslObject> objects = new LinkedList<>();
@@ -229,6 +227,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                         o.onMove();
                         onMove(o);
                         if (!o.hover) {
+                            hoveredOb = o;
                             o.hover = true;
                             o.onEnter();
                             onEnter(o);
@@ -295,6 +294,12 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                     }
                 }
                 clickedOb = null;
+            }
+            if(hoveredOb != null) {
+                hoveredOb.hover = false;
+                hoveredOb.onLeave();
+                onLeave(hoveredOb);
+                hoveredOb = null;
             }
         }
     }

@@ -2,8 +2,9 @@ package MainFiles;
 
 import jslEngine.*;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.Graphics;
+import java.awt.Color;
 
 public class MainClass extends jslEngine {
 
@@ -24,6 +25,8 @@ public class MainClass extends jslEngine {
         jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
         btn.setVelR(1.0f);
         btn.translateX(200);
+
+        jsl.newButton("foo", 300, 150, 200, 50);
     }
 
     protected void update(float et) {
@@ -36,7 +39,7 @@ public class MainClass extends jslEngine {
 
     protected void onKeyPressed() {
         if(key.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.exit(-1);
+            System.exit(144);
         }
     }
 
