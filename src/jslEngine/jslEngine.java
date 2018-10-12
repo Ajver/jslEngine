@@ -305,6 +305,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private boolean isWindow = false;
     private JFrame frame;
     private Thread thread;
+    private WindowType windowType;
 
     // Private help variables
     private int fps = 0;
@@ -312,6 +313,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     // Functions for window controlling
     protected void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
+        windowType = type;
         isWindow = true;
         frame = new JFrame(title);
         if(type == WindowType.jslFullscreen) {
@@ -321,15 +323,18 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        resizeWindow(w, h);
+    }
+    protected void resizeWindow(int w, int h) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         int WW, WH, sw, sh;
         sw = (int)tk.getScreenSize().getWidth();
         sh = (int)tk.getScreenSize().getHeight();
-        if(type == WindowType.jslStatic) {
+        if(windowType == WindowType.jslStatic) {
             WW = w + 6;
             WH = h + 29;
             frame.setResizable(false);
-        }else if(type == WindowType.jslNormal) {
+        }else if(windowType == WindowType.jslNormal) {
             WW = w + 16;
             WH = h + 39;
         }else {
@@ -337,13 +342,13 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             WH = sh;
             frame.setResizable(false);
         }
-        if(type != WindowType.jslFullscreen) {
-            frame.setLocation((sw-w)/2, (sh-h)/2);
+        if(windowType != WindowType.jslFullscreen) {
+            frame.setLocation((sw-WW)/2, (sh-WH)/2);
         }
         frame.setSize(WW, WH);
     }
     protected void start() {
-        start("jsl Application", 400, 300);
+        start("jsl Application", 300, 300);
     }
     protected void start(String title, int w, int h) {
         start(title, w, h, WindowType.jslStatic);

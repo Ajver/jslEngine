@@ -10,8 +10,10 @@ public class MainClass extends jslEngine {
     private jslSettings defaultSettings = new jslSettings();
     private jslSettings onHoverSettings = new jslSettings();
 
+    private jslButton btn;
+
     public MainClass() {
-        start("jsl Tests", 600, 400);
+        start("jsl Tests", 800, 600);
         setSize(300, 400);
 
         defaultSettings.bgColor = new Color(141, 12, 206);
@@ -21,9 +23,11 @@ public class MainClass extends jslEngine {
         jsl.defaulButtonSettings = defaultSettings;
         jsl.onHoverButtonSettings = onHoverSettings;
 
-        jslButton btn = jsl.newButton("HI", 100, 100, 200, 50);
+        btn = jsl.newButton("HI", 100, 100, 200, 50);
         btn.setVelR(1.0f);
         btn.translateX(200);
+
+        printWS();
     }
 
     protected void update(float et) {
@@ -32,6 +36,18 @@ public class MainClass extends jslEngine {
 //                new Random().nextInt(10000);
 //            }
 //        }
+    }
+
+    protected void onClick(jslObject o) {
+        if(o == btn) {
+            //resizeWindow(800, 600);
+            printWS();
+        }
+    }
+
+    private void printWS() {
+        System.out.print("WW: "+WW());
+        System.out.println(" | WH: "+WH());
     }
 
     protected void onKeyPressed() {
