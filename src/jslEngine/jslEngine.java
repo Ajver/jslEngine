@@ -345,7 +345,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         if(windowType != WindowType.jslFullscreen) {
             frame.setLocation((sw-WW)/2, (sh-WH)/2);
         }
+        setSize(WW, WH);
         frame.setSize(WW, WH);
+        System.out.println("HAHAH: "+frame.getWidth());
     }
     protected void start() {
         start("jsl Application", 300, 300);
@@ -372,6 +374,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private void jslRender() {
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null) {
+            System.out.println("bs equal to null!!!");
             this.createBufferStrategy(3);
             return;
         }

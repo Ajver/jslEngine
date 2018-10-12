@@ -13,8 +13,7 @@ public class MainClass extends jslEngine {
     private jslButton btn;
 
     public MainClass() {
-        start("jsl Tests", 800, 600);
-        setSize(300, 400);
+        start("jsl Tests", 600, 400, WindowType.jslNormal);
 
         defaultSettings.bgColor = new Color(141, 12, 206);
         onHoverSettings.bgColor = new Color(6, 119, 132);
@@ -40,7 +39,7 @@ public class MainClass extends jslEngine {
 
     protected void onClick(jslObject o) {
         if(o == btn) {
-            //resizeWindow(800, 600);
+            resizeWindow(800, 600);
             printWS();
         }
     }
@@ -59,8 +58,8 @@ public class MainClass extends jslEngine {
     protected void render(Graphics g) {
         g.setColor(Color.WHITE);
         g.drawString("FPS: "+getFpsCount(), 50, 50);
-//        g.drawString("WW: "+WW(), 50, 100);
-//        g.drawString("WH: "+WH(), 50, 125);
+        g.drawString("WW: "+WW(), 50, 100);
+        g.drawString("WH: "+WH(), 50, 125);
     }
 
     public static void main(String[] args) {
