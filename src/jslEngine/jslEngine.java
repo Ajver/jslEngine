@@ -206,8 +206,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     // Object of this class is created (and called "jsl")
     public class jslManager {
         private jslObject clickedOb = null, hoveredOb = null;
-        public jslSettings defaulButtonSettings = new jslSettings();
-        public jslSettings onHoverButtonSettings = defaulButtonSettings;
         private LinkedList<jslObject> objects = new LinkedList<>();
         public jslManager() {}
         public jslButton newButton() {
