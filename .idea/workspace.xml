@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="" />
+    <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/MainFiles/MainClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/MainFiles/MainClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jslEngine/jslEngine/jslEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainFiles/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainFiles/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,23 +27,23 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="iml" value="1" />
-          <entry key="java" value="3" />
+          <entry key="java" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="3" />
+          <entry key="JAVA" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="6756" />
+          <entry key="java" value="6924" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6756" />
+          <entry key="JAVA" value="6924" />
         </counts>
       </usages-collector>
     </session>
@@ -65,10 +71,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+            <state relative-caret-position="525">
+              <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#2006#2007#0" expanded="true" />
+                <element signature="e#2037#2038#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,8 +84,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="417" column="33" lean-forward="true" selection-start-line="417" selection-start-column="33" selection-end-line="417" selection-end-column="33" />
+            <state relative-caret-position="401">
+              <caret line="343" column="23" selection-start-line="343" selection-start-column="23" selection-end-line="343" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#6578#6579#0" expanded="true" />
+                <element signature="e#6619#6620#0" expanded="true" />
+                <element signature="e#6678#6679#0" expanded="true" />
+                <element signature="e#6728#6729#0" expanded="true" />
+                <element signature="e#8585#8586#0" expanded="true" />
+                <element signature="e#8635#8636#0" expanded="true" />
+                <element signature="e#8686#8687#0" expanded="true" />
+                <element signature="e#8739#8740#0" expanded="true" />
+                <element signature="e#8808#8809#0" expanded="true" />
+                <element signature="e#8870#8871#0" expanded="true" />
+                <element signature="e#9303#9304#0" expanded="true" />
+                <element signature="e#9370#9371#0" expanded="true" />
+                <element signature="e#14726#14727#0" expanded="true" />
+                <element signature="e#14776#14777#0" expanded="true" />
+                <element signature="e#14831#14832#0" expanded="true" />
+                <element signature="e#14887#14888#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,6 +117,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>resizeW</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -117,6 +148,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -140,12 +172,11 @@
       </pane>
       <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537983985662" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541713207294" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -190,7 +221,7 @@
     <option name="totallyTimeSpent" value="679000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="709" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
@@ -198,7 +229,7 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.14781906" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.15085287" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -206,7 +237,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="6" visible="true" weight="0.26256078" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.2624729" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -235,20 +266,55 @@
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/awt/event/KeyListener.java" />
-    <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/awt/Component.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+        <state relative-caret-position="-3165">
+          <caret line="2268" column="16" selection-start-line="2263" selection-end-line="2324" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#74817#74818#0" expanded="true" />
+            <element signature="e#74854#74855#0" expanded="true" />
+            <element signature="e#77478#77479#0" expanded="true" />
+            <element signature="e#77522#77523#0" expanded="true" />
+            <element signature="e#84656#84657#0" expanded="true" />
+            <element signature="e#84684#84685#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="417" column="33" lean-forward="true" selection-start-line="417" selection-start-column="33" selection-end-line="417" selection-end-column="33" />
+        <state relative-caret-position="401">
+          <caret line="343" column="23" selection-start-line="343" selection-start-column="23" selection-end-line="343" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6578#6579#0" expanded="true" />
+            <element signature="e#6619#6620#0" expanded="true" />
+            <element signature="e#6678#6679#0" expanded="true" />
+            <element signature="e#6728#6729#0" expanded="true" />
+            <element signature="e#8585#8586#0" expanded="true" />
+            <element signature="e#8635#8636#0" expanded="true" />
+            <element signature="e#8686#8687#0" expanded="true" />
+            <element signature="e#8739#8740#0" expanded="true" />
+            <element signature="e#8808#8809#0" expanded="true" />
+            <element signature="e#8870#8871#0" expanded="true" />
+            <element signature="e#9303#9304#0" expanded="true" />
+            <element signature="e#9370#9371#0" expanded="true" />
+            <element signature="e#14726#14727#0" expanded="true" />
+            <element signature="e#14776#14777#0" expanded="true" />
+            <element signature="e#14831#14832#0" expanded="true" />
+            <element signature="e#14887#14888#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+          <folding>
+            <element signature="e#2006#2007#0" expanded="true" />
+            <element signature="e#2037#2038#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

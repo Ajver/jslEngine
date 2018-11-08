@@ -339,6 +339,11 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         resizeWindow(w, h);
     }
     protected void resizeWindow(int w, int h) {
+        if(w == WW()) {
+            if(h == WH()) {
+                return;
+            }
+        }
         Toolkit tk = Toolkit.getDefaultToolkit();
         int WW, WH, sw, sh;
         sw = (int)tk.getScreenSize().getWidth();
@@ -356,7 +361,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             frame.setResizable(false);
         }
         if(windowType != WindowType.jslFullscreen) {
-            frame.setLocation((sw-WW)/2, (sh-WH)/2);
+            frame.setLocation((sw - WW) / 2, (sh - WH) / 2);
         }
         setSize(WW, WH);
         frame.setSize(WW, WH);
@@ -387,7 +392,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private void jslRender() {
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null) {
-            System.out.println("bs equal to null!!!");
             this.createBufferStrategy(3);
             return;
         }

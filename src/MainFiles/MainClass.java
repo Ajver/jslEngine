@@ -23,7 +23,7 @@ public class MainClass extends jslEngine {
         jsl.defaulButtonSettings = defaultSettings;
         jsl.onHoverButtonSettings = onHoverSettings;
 
-        btn = jsl.newButton("HI", 100, 100, 200, 50);
+        btn = jsl.newButton("Click me!", 100, 100, 200, 50);
         btn.setVelR(1.0f);
         btn.translateX(200);
 
@@ -61,6 +61,10 @@ public class MainClass extends jslEngine {
         g.drawString("FPS: "+getFpsCount(), 50, 50);
         g.drawString("WW: "+WW(), 50, 100);
         g.drawString("WH: "+WH(), 50, 125);
+        if(mouse != null) {
+            g.drawString("mx: " + mouse.getX(), 50, 160);
+            g.drawString("my: " + mouse.getX(), 50, 185);
+        }
     }
 
     public static void main(String[] args) {
