@@ -14,7 +14,7 @@ public class MainClass extends jslEngine {
     private jslButton btn;
 
     public MainClass() {
-        start("jsl Tests", 600, 400, WindowType.jslNormal);
+        start("jsl Tests", 600, 400);
 
         defaultSettings.bgColor = new Color(141, 12, 206);
         onHoverSettings.bgColor = new Color(6, 119, 132);
