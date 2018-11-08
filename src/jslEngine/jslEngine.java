@@ -12,6 +12,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public KeyEvent key = null;
     public MouseEvent mouse = null;
     public jslManager jsl;
+    private WindowType windowType;
+    private boolean antialiasing = false;
 
     // Those functions are to override
     protected abstract void update(float et);
@@ -44,7 +46,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public boolean fontChanged = true;
         public Color bgColor = new Color(100, 100,100);
         public Color txtColor = new Color(255, 255, 255);
-        public float txtX, txtY;
+        public float txtX = 0, txtY = 0;
         private String fontName = "arial";
         private int fontType = 0;
         private int fontSize = 16;
@@ -60,7 +62,10 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public int getFontSize() { return fontSize; }
     }
     public abstract class jslObject {
-        protected float x, y, w, h;
+        protected boolean isTranslating = true;
+        protected boolean isMaxX = false, isMaxY = false, isMaxW = false, isMaxH = false,
+                isMinX = false, isMinY = false, isMinW = false, isMinH = false;
+        protected float x, y, w, h, maxX, maxY, maxW, maxH, minX, minY, minW, minH;
         protected float velX, velY, velR;
         protected float rotate, rotateX, rotateY;
         protected float translateX, translateY;
@@ -72,14 +77,70 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             setX(x);
             setY(y);
         }
-        public void setX(float x) { this.x = x; }
-        public void setY(float y) { this.y = y; }
+        public void setX(float x) {
+            if(isMinX) { x = Math.max(x, minX); }
+            if(isMaxX) { x = Math.min(x, maxX); }
+            this.x = x;
+        }
+        public void setY(float y) {
+            if(isMinY) { y = Math.max(y, minY); }
+            if(isMaxY) { y = Math.min(y, maxY); }
+            this.y = y;
+        }
         public void setSize(float w, float h) {
             setW(w);
             setH(h);
         }
-        public void setW(float w) { this.w = w; }
-        public void setH(float h) { this.h = h; }
+        public void setW(float w) {
+            if(isMinW) { w = Math.max(w, minW); }
+            if(isMaxW) { w = Math.min(w, maxW); }
+            this.w = w;
+        }
+        public void setH(float h) {
+            if(isMinH) { h = Math.max(h, minH); }
+            if(isMaxH) { h = Math.min(h, maxH); }
+            this.h = h;
+        }
+        public void setMaxX(boolean flag) { this.isMaxX = flag; }
+        public void setMaxY(boolean flag) { this.isMaxY = flag; }
+        public void setMaxW(boolean flag) { this.isMaxW = flag; }
+        public void setMaxH(boolean flag) { this.isMaxH = flag; }
+        public void setMaxX(float maxX) {
+            this.maxX = maxX;
+            isMaxX = true;
+        }
+        public void setMaxY(float maxY) {
+            this.maxY = maxY;
+            isMaxY = true;
+        }
+        public void setMaxW(float maxW) {
+            this.maxW = maxW;
+            isMaxW = true;
+        }
+        public void setMaxH(float maxH) {
+            this.maxH = maxH;
+            isMaxH = true;
+        }
+        public void setMinX(boolean flag) { this.isMinX = flag; }
+        public void setMinY(boolean flag) { this.isMinY = flag; }
+        public void setMinW(boolean flag) { this.isMinW = flag; }
+        public void setMinH(boolean flag) { this.isMinH = flag; }
+        public void setMinX(float minX) {
+            this.minX = minX;
+            isMinX = true;
+        }
+        public void setMinY(float minY) {
+            this.minY = minY;
+            isMinY = true;
+        }
+        public void setMinW(float minW) {
+            this.minW = minW;
+            isMinW = true;
+        }
+        public void setMinH(float minH) {
+            this.minH = minH;
+            isMinH = true;
+        }
         public void setVelX(float velX) { this.velX = velX; }
         public void setVelY(float velY) { this.velY = velY; }
         public void setVelR(float velR) { this.velR = velR; }
@@ -103,8 +164,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void setTranslateX(float tx) { this.translateX = tx; }
         public void setTranslateY(float ty) { this.translateY = ty; }
-        public float getX() { return x;}
-        public float getY() { return y; }
+        public void setIsTranslating(boolean flag) { this.isTranslating = flag; }
+        public float getX() { return x + (isTranslating ? translateX : 0); }
+        public float getY() { return y + (isTranslating ? translateY : 0); }
         public float getW() { return w; }
         public float getH() { return h; }
         public float getVelX() { return velX; }
@@ -113,8 +175,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         public float getRotate() { return rotate; }
         public float getRotateX() { return rotateX; }
         public float getRotateY() { return rotateY; }
-        public float getTranslateX() { return translateX; }
-        public float getTranslateY() { return translateY; }
+        public float getTranslateX() { return (isTranslating ? translateX : 0); }
+        public float getTranslateY() { return (isTranslating ? translateY : 0); }
         protected void update(float et) {
             x += velX * et;
             y += velY * et;
@@ -122,8 +184,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         protected void render(Graphics g) {}
         public boolean isPointIn(float px, float py) {
-            px -= translateX;
-            py -= translateY;
+            px -= getTranslateX();
+            py -= getTranslateY();
             if(rotate != 0.0f) {
                 float diffX = px - rotateX;
                 float diffY = rotateY - py;
@@ -185,11 +247,32 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     }
     // Object of this class is created (and called "jsl")
     public class jslManager {
-        private jslObject clickedOb = null, hoveredOb = null;
+        private boolean autorender = true, autoupdate = true;
+        private float translateX = 0, translateY = 0;
+        private jslObject clickedOb = null;
         public jslSettings defaulButtonSettings = new jslSettings();
         public jslSettings onHoverButtonSettings = defaulButtonSettings;
         private LinkedList<jslObject> objects = new LinkedList<>();
         public jslManager() {}
+        public void setAutorender(boolean flag) { this.autorender = flag;}
+        public void setAutoupdate(boolean flag) { this.autoupdate = flag;}
+        public void translate(float tx, float ty) {
+            translateX(tx);
+            translateY(ty);
+        }
+        public void translateX(float tx) {
+            this.translateX += tx;
+            for(jslObject o : objects) {
+                o.translateX(tx);
+            }
+        }
+        public void translateY(float ty) { this.translateY += ty; }
+        public void setTranslate(float tx, float ty) {
+            setTranslateX(tx);
+            setTranslateY(ty);
+        }
+        public void setTranslateX(float tx) { this.translateX = tx; }
+        public void setTranslateY(float ty) { this.translateY = ty; }
         public jslButton newButton() {
             return newButton("Button");
         }
@@ -207,16 +290,18 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             return button;
         }
         public void add(jslObject o) { objects.add(o); }
-        public void update(float et) {
-            for(jslObject o : objects) { o.update(et); }
-        }
+        public void update(float et) { if(autoupdate) { for(jslObject o : objects) { o.update(et); } } }
         public void render(Graphics g) {
-            for(jslObject o : objects) {
-                if(o.settings.isVisible) {
-                    if(o.settings.isRendering) {
-                        o.render(g);
+            if(autorender) {
+                g.translate((int) translateX, (int) translateY);
+                for (jslObject o : objects) {
+                    if (o.settings.isVisible) {
+                        if (o.settings.isRendering) {
+                            o.render(g);
+                        }
                     }
                 }
+                g.translate(-(int) translateX, -(int) translateY);
             }
         }
         public void mouseMoved(MouseEvent e) {
@@ -227,7 +312,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                         o.onMove();
                         onMove(o);
                         if (!o.hover) {
-                            hoveredOb = o;
                             o.hover = true;
                             o.onEnter();
                             onEnter(o);
@@ -255,19 +339,20 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                     clickedOb.onDrag();
                     onDrag(clickedOb);
                 }
-            }else {
-                for (int i = objects.size() - 1; i >= 0; i--) {
-                    jslObject o = objects.get(i);
-                    if (o.settings.isVisible) {
-                        if (o.isPointIn(e.getX(), e.getY())) {
-                            clickedOb = o;
-                            o.onDrag();
-                            onDrag(o);
-                            return;
-                        }
-                    }
-                }
             }
+//            else {
+//                for (int i = objects.size() - 1; i >= 0; i--) {
+//                    jslObject o = objects.get(i);
+//                    if (o.settings.isVisible) {
+//                        if (o.isPointIn(e.getX(), e.getY())) {
+//                            clickedOb = o;
+//                            o.onDrag();
+//                            onDrag(o);
+//                            return;
+//                        }
+//                    }
+//                }
+//            }
         }
         public void mousePressed(MouseEvent e) {
             for(int i=objects.size()-1; i>=0; i--) {
@@ -282,34 +367,20 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         public void mouseReleased(MouseEvent e) {
             if(clickedOb != null) {
-                for(int i=objects.size()-1; i>=0; i--) {
-                    jslObject o = objects.get(i);
-                    if(o.isPointIn(e.getX(), e.getY())) {
-                        if(clickedOb == o) {
-                            o.onUnclick();
-                            onUnclick(o);
-                        }
-                        clickedOb = null;
-                        return;
-                    }
+                if (clickedOb.isPointIn(e.getX(), e.getY())) {
+                    clickedOb.onUnclick();
+                    onUnclick(clickedOb);
                 }
                 clickedOb = null;
-            }
-            if(hoveredOb != null) {
-                hoveredOb.hover = false;
-                hoveredOb.onLeave();
-                onLeave(hoveredOb);
-                hoveredOb = null;
             }
         }
     }
     public enum WindowType {
         jslNormal, // Resizable
         jslStatic, // No resizable
-        jslFullscreen   // No resizable + no decorations
+        jslFullscreen
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Private variables used to run
@@ -318,13 +389,13 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private boolean isWindow = false;
     private JFrame frame;
     private Thread thread;
-    private WindowType windowType;
 
     // Private help variables
     private int fps = 0;
 
     // Functions for window controlling
-    private void createWindow(String title, int w, int h, WindowType type) {
+    protected void setAntialiasing(boolean flag) { antialiasing = flag; }
+    protected void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
         windowType = type;
         isWindow = true;
@@ -365,10 +436,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         setSize(WW, WH);
         frame.setSize(WW, WH);
-        System.out.println("HAHAH: "+frame.getWidth());
     }
     protected void start() {
-        start("jsl Application", 300, 300);
+        start("jsl Application", 400, 300);
     }
     protected void start(String title, int w, int h) {
         start(title, w, h, WindowType.jslStatic);
@@ -396,6 +466,13 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             return;
         }
         Graphics g = bs.getDrawGraphics();
+        if(antialiasing) {
+            Graphics2D g2 = (Graphics2D)g;
+            RenderingHints rh = new RenderingHints(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHints(rh);
+        }
         g.setColor(new Color(30, 30, 30));
         g.fillRect(0, 0, WW(), WH());
         jsl.render(g);
@@ -407,7 +484,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     // Main loop
     public void run() {
         this.requestFocus();
-        long start, stop;
+        long start = 0;
+        long stop = 0;
         float elapsedTime = 0.0f;
         long fpsTimer = System.currentTimeMillis();
         int fpsCounter = 0;
@@ -437,6 +515,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public void mouseReleased(MouseEvent e) { this.mouse = e; jsl.mouseReleased(e); onMouseReleased(); }
     public void mouseDragged(MouseEvent e) { this.mouse = e; jsl.mouseDragged(e); onMouseDragged(); }
     public void mouseMoved(MouseEvent e) { this.mouse = e; jsl.mouseMoved(e); onMouseMoved(); }
+
     public int WW() { return getWidth(); }
     public int WH() { return getHeight(); }
     public int getFpsCount() { return fps; }

@@ -24,8 +24,9 @@ public class MainClass extends jslEngine {
         jsl.onHoverButtonSettings = onHoverSettings;
 
         btn = jsl.newButton("Click me!", 100, 100, 200, 50);
-        btn.setVelR(1.0f);
-        btn.translateX(200);
+        //btn.setVelR(1.0f);
+        btn.translateX(100);
+        btn.setOnHoverSettings(onHoverSettings);
 
         printWS();
     }
