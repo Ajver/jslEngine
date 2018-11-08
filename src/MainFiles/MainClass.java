@@ -8,13 +8,13 @@ import java.awt.Color;
 
 public class MainClass extends jslEngine {
 
-    private jslSettings defaultSettings = new jslSettings();
-    private jslSettings onHoverSettings = new jslSettings();
-
     private jslButton btn;
 
-    public MainClass() {
+    private MainClass() {
         start("jsl Tests", 600, 400);
+
+        jslSettings defaultSettings = new jslSettings();
+        jslSettings onHoverSettings = new jslSettings();
 
         defaultSettings.bgColor = new Color(141, 12, 206);
         onHoverSettings.bgColor = new Color(6, 119, 132);
