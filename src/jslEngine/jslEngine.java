@@ -430,7 +430,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             frame.setResizable(false);
         }
         if(windowType != WindowType.jslFullscreen) {
-
+            frame.setLocation((sw - WW) / 2, (sh - WH) / 2);
         }
         setSize(WW, WH);
         frame.setSize(WW, WH);

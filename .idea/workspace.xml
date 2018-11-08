@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainFiles/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainFiles/MainClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jslEngine/jslEngine.java" afterDir="false" />
-    </list>
+    <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,11 +62,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="325">
-              <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+              <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
               <folding>
                 <element signature="e#2006#2007#0" expanded="true" />
                 <element signature="e#2037#2038#0" expanded="true" />
@@ -79,27 +75,27 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="432" selection-start-line="432" selection-end-line="432" />
+            <state relative-caret-position="420">
+              <caret line="432" column="60" selection-start-line="432" selection-start-column="60" selection-end-line="432" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8911#8912#0" expanded="true" />
-                <element signature="e#8952#8953#0" expanded="true" />
-                <element signature="e#9011#9012#0" expanded="true" />
-                <element signature="e#9061#9062#0" expanded="true" />
-                <element signature="e#11796#11797#0" expanded="true" />
-                <element signature="e#11846#11847#0" expanded="true" />
-                <element signature="e#11897#11898#0" expanded="true" />
-                <element signature="e#11950#11951#0" expanded="true" />
-                <element signature="e#12019#12020#0" expanded="true" />
-                <element signature="e#12081#12082#0" expanded="true" />
-                <element signature="e#17505#17506#0" expanded="true" />
-                <element signature="e#17555#17556#0" expanded="true" />
-                <element signature="e#17610#17611#0" expanded="true" />
-                <element signature="e#17666#17667#0" expanded="true" />
+                <element signature="e#8946#8947#0" expanded="true" />
+                <element signature="e#8987#8988#0" expanded="true" />
+                <element signature="e#9046#9047#0" expanded="true" />
+                <element signature="e#9096#9097#0" expanded="true" />
+                <element signature="e#11831#11832#0" expanded="true" />
+                <element signature="e#11881#11882#0" expanded="true" />
+                <element signature="e#11932#11933#0" expanded="true" />
+                <element signature="e#11985#11986#0" expanded="true" />
+                <element signature="e#12054#12055#0" expanded="true" />
+                <element signature="e#12116#12117#0" expanded="true" />
+                <element signature="e#17586#17587#0" expanded="true" />
+                <element signature="e#17636#17637#0" expanded="true" />
+                <element signature="e#17691#17692#0" expanded="true" />
+                <element signature="e#17747#17748#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,8 +122,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/jslEngine/jslEngine.java" />
         <option value="$PROJECT_DIR$/src/MainFiles/MainClass.java" />
+        <option value="$PROJECT_DIR$/src/jslEngine/jslEngine.java" />
       </list>
     </option>
   </component>
@@ -173,7 +169,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541713745177" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541713808974" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -280,24 +276,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jslEngine/jslEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="432" selection-start-line="432" selection-end-line="432" />
+        <state relative-caret-position="420">
+          <caret line="432" column="60" selection-start-line="432" selection-start-column="60" selection-end-line="432" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8911#8912#0" expanded="true" />
-            <element signature="e#8952#8953#0" expanded="true" />
-            <element signature="e#9011#9012#0" expanded="true" />
-            <element signature="e#9061#9062#0" expanded="true" />
-            <element signature="e#11796#11797#0" expanded="true" />
-            <element signature="e#11846#11847#0" expanded="true" />
-            <element signature="e#11897#11898#0" expanded="true" />
-            <element signature="e#11950#11951#0" expanded="true" />
-            <element signature="e#12019#12020#0" expanded="true" />
-            <element signature="e#12081#12082#0" expanded="true" />
-            <element signature="e#17505#17506#0" expanded="true" />
-            <element signature="e#17555#17556#0" expanded="true" />
-            <element signature="e#17610#17611#0" expanded="true" />
-            <element signature="e#17666#17667#0" expanded="true" />
+            <element signature="e#8946#8947#0" expanded="true" />
+            <element signature="e#8987#8988#0" expanded="true" />
+            <element signature="e#9046#9047#0" expanded="true" />
+            <element signature="e#9096#9097#0" expanded="true" />
+            <element signature="e#11831#11832#0" expanded="true" />
+            <element signature="e#11881#11882#0" expanded="true" />
+            <element signature="e#11932#11933#0" expanded="true" />
+            <element signature="e#11985#11986#0" expanded="true" />
+            <element signature="e#12054#12055#0" expanded="true" />
+            <element signature="e#12116#12117#0" expanded="true" />
+            <element signature="e#17586#17587#0" expanded="true" />
+            <element signature="e#17636#17637#0" expanded="true" />
+            <element signature="e#17691#17692#0" expanded="true" />
+            <element signature="e#17747#17748#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -305,7 +301,7 @@
     <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
-          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+          <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
           <folding>
             <element signature="e#2006#2007#0" expanded="true" />
             <element signature="e#2037#2038#0" expanded="true" />
