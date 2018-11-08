@@ -12,6 +12,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public KeyEvent key = null;
     public MouseEvent mouse = null;
     public jslManager jsl;
+    private WindowType windowType;
     private boolean antialiasing = false;
 
     // Those functions are to override
@@ -394,6 +395,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void setAntialiasing(boolean flag) { antialiasing = flag; }
     protected void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
+        windowType = type;
         isWindow = true;
         frame = new JFrame(title);
         if(type == WindowType.jslFullscreen) {
@@ -415,11 +417,11 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         int WW, WH, sw, sh;
         sw = (int)tk.getScreenSize().getWidth();
         sh = (int)tk.getScreenSize().getHeight();
-        if(type == WindowType.jslStatic) {
+        if(windowType == WindowType.jslStatic) {
             WW = w + 6;
             WH = h + 29;
             frame.setResizable(false);
-        }else if(type == WindowType.jslNormal) {
+        }else if(windowType == WindowType.jslNormal) {
             WW = w + 16;
             WH = h + 39;
         }else {
@@ -427,7 +429,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             WH = sh;
             frame.setResizable(false);
         }
-        if(type != WindowType.jslFullscreen) {
+        if(windowType != WindowType.jslFullscreen) {
+
         }
         setSize(WW, WH);
         frame.setSize(WW, WH);
