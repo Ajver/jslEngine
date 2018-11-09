@@ -111,6 +111,7 @@ public class jslObject {
     public void setTranslateX(float tx) { this.translateX = tx; }
     public void setTranslateY(float ty) { this.translateY = ty; }
     public void setIsTranslating(boolean flag) { this.isTranslating = flag; }
+    public boolean getIsTranslating() { return this.isTranslating; }
     public float getX() { return x + (isTranslating ? translateX : 0); }
     public float getY() { return y + (isTranslating ? translateY : 0); }
     public float getW() { return w; }
@@ -130,8 +131,6 @@ public class jslObject {
     }
     protected void render(Graphics g) {}
     public boolean isPointIn(float px, float py) {
-        px -= getTranslateX();
-        py -= getTranslateY();
         if(rotate != 0.0f) {
             float diffX = px - rotateX;
             float diffY = rotateY - py;
