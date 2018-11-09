@@ -1,0 +1,97 @@
+package jslEngine;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+
+public class jslManager {
+    private jslEngine engine;
+    private boolean autorender = true, autoupdate = true;
+    private float translateX = 0, translateY = 0;
+    private jslObject clickedOb = null;
+    private LinkedList<jslObject> objects = new LinkedList<>();
+    public jslManager(jslEngine engine) { this.engine = engine; }
+    public void setAutorender(boolean flag) { this.autorender = flag; }
+    public void setAutoupdate(boolean flag) { this.autoupdate = flag; }
+    public void translate(float tx, float ty) {
+        translateX(tx);
+        translateY(ty);
+    }
+    public void translateX(float tx) {
+        this.translateX += tx;
+        for(jslObject o : objects) {
+            o.translateX(tx);
+        }
+    }
+    public void translateY(float ty) { this.translateY += ty; }
+    public void setTranslate(float tx, float ty) {
+        setTranslateX(tx);
+        setTranslateY(ty);
+    }
+    public void setTranslateX(float tx) { this.translateX = tx; }
+    public void setTranslateY(float ty) { this.translateY = ty; }
+    public void add(jslObject o) { objects.add(o); }
+    public void update(float et) { if(autoupdate) { for(jslObject o : objects) { o.update(et); } } }
+    public void render(Graphics g) {
+        if(autorender) {
+            g.translate((int) translateX, (int) translateY);
+            for (jslObject o : objects) {
+                o.render(g);
+            }
+            g.translate(-(int) translateX, -(int) translateY);
+        }
+    }
+    public void mouseMoved(MouseEvent e) {
+        for(int i=objects.size()-1; i>=0; i--) {
+            jslObject o = objects.get(i);
+            if (o.isPointIn(e.getX(), e.getY())) {
+                o.onMove();
+                engine.onMove(o);
+                if (!o.hover) {
+                    o.hover = true;
+                    o.onEnter();
+                    engine.onEnter(o);
+                }
+                for(i=i-1; i>=0; i--) {
+                    o = objects.get(i);
+                    if(o.hover) {
+                        o.hover = false;
+                        o.onLeave();
+                        engine.onLeave(o);
+                    }
+                }
+                return;
+            } else if (o.hover) {
+                o.hover = false;
+                o.onLeave();
+                engine.onLeave(o);
+            }
+        }
+    }
+    public void mouseDragged(MouseEvent e) {
+        if(clickedOb != null) {
+            clickedOb.onDrag();
+            engine.onDrag(clickedOb);
+        }
+    }
+    public void mousePressed(MouseEvent e) {
+        for(int i=objects.size()-1; i>=0; i--) {
+            jslObject o = objects.get(i);
+            if(o.isPointIn(e.getX(), e.getY())) {
+                clickedOb = o;
+                o.onClick();
+                engine.onClick(o);
+                return;
+            }
+        }
+    }
+    public void mouseReleased(MouseEvent e) {
+        if(clickedOb != null) {
+            if (clickedOb.isPointIn(e.getX(), e.getY())) {
+                clickedOb.onUnclick();
+                engine.onUnclick(clickedOb);
+            }
+            clickedOb = null;
+        }
+    }
+}

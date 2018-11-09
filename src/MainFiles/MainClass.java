@@ -8,25 +8,32 @@ import java.awt.Color;
 
 public class MainClass extends jslEngine {
 
-    private jslButton btn;
-
     private MainClass() {
         start("jsl Tests", 600, 400);
 
-        jslSettings defaultSettings = new jslSettings();
-        jslSettings onHoverSettings = new jslSettings();
-
-        defaultSettings.bgColor = new Color(141, 12, 206);
-        onHoverSettings.bgColor = new Color(6, 119, 132);
-        onHoverSettings.txtColor = new Color(0, 0, 0);
-
-        jsl.defaulButtonSettings = defaultSettings;
-        jsl.onHoverButtonSettings = onHoverSettings;
-
-        btn = jsl.newButton("Click me!", 100, 100, 200, 50);
-        //btn.setVelR(1.0f);
-        btn.translateX(100);
-        btn.setOnHoverSettings(onHoverSettings);
+        jsl.add(new jslObject(100, 100, 100, 50) {
+            private Color[] col;
+            private int index = 0;
+            public void onCreate() {
+                this.index = 1;
+                col = new Color[2];
+                col[0] = new Color(255, 255, 255);
+                col[1] = new Color(255, 0, 255);
+            }
+            public void onClick() {
+                System.out.println("hello world xD!");
+            }
+            public void onEnter() {
+                index = 1;
+            }
+            public void onLeave() {
+                index = 0;
+            }
+            public void render(Graphics g) {
+                g.setColor(col[index]);
+                g.fillRect((int)x, (int)y, (int)w, (int)h);
+            }
+        });
 
         printWS();
     }
@@ -40,10 +47,7 @@ public class MainClass extends jslEngine {
     }
 
     protected void onClick(jslObject o) {
-        if(o == btn) {
-            resizeWindow(800, 600);
-            printWS();
-        }
+
     }
 
     private void printWS() {
@@ -64,7 +68,7 @@ public class MainClass extends jslEngine {
         g.drawString("WH: "+WH(), 50, 125);
         if(mouse != null) {
             g.drawString("mx: " + mouse.getX(), 50, 160);
-            g.drawString("my: " + mouse.getX(), 50, 185);
+            g.drawString("my: " + mouse.getY(), 50, 185);
         }
     }
 
