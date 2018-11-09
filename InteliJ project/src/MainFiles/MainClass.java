@@ -9,7 +9,7 @@ import java.awt.Color;
 public class MainClass extends jslEngine {
 
     private MainClass() {
-        start("jsl Tests", 600, 400, WindowType.jslStatic);
+        start("jsl Tests", 600, 400);
 
         jsl.add(new jslObject(100, 100, 100, 50) {
             private Color[] col;
@@ -18,7 +18,7 @@ public class MainClass extends jslEngine {
                 this.index = 1;
                 col = new Color[2];
                 col[0] = new Color(255, 255, 255);
-                col[1] = new Color(255, 0, 255);
+                col[1] = new Color(128, 0, 255);
             }
             public void onEnter() {
                 index = 1;
