@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class jslManager {
     private jslEngine engine;
     private boolean autoRender = true, autoUpdate = true, autoClearScreen = true;
+    protected boolean isTranslating = true;
     private float translateX = 0, translateY = 0;
     private jslObject clickedOb = null;
     private LinkedList<jslObject> objects = new LinkedList<>();
@@ -31,6 +32,10 @@ public class jslManager {
     }
     public void setTranslateX(float tx) { this.translateX = tx; }
     public void setTranslateY(float ty) { this.translateY = ty; }
+    public float getTranslateX() { return (isTranslating ? translateX : 0); }
+    public float getTranslateY() { return (isTranslating ? translateY : 0); }
+    public void setIsTranslating(boolean flag) { this.isTranslating = flag; }
+    public boolean getIsTranslating(boolean flag) { return this.isTranslating; }
     public void add(jslObject o) { objects.add(o); }
     public void update(float et) { if(autoUpdate) { for(jslObject o : objects) { o.update(et); } } }
     public void render(Graphics g) {
@@ -49,7 +54,7 @@ public class jslManager {
     public void mouseMoved(MouseEvent e) {
         for(int i=objects.size()-1; i>=0; i--) {
             jslObject o = objects.get(i);
-            if (o.isPointIn(e.getX(), e.getY())) {
+            if (o.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 o.onMove();
                 engine.onMove(o);
                 if (!o.hover) {
@@ -82,7 +87,7 @@ public class jslManager {
     public void mousePressed(MouseEvent e) {
         for(int i=objects.size()-1; i>=0; i--) {
             jslObject o = objects.get(i);
-            if(o.isPointIn(e.getX(), e.getY())) {
+            if(o.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 clickedOb = o;
                 o.onPress();
                 engine.onPress(o);
@@ -92,7 +97,7 @@ public class jslManager {
     }
     public void mouseReleased(MouseEvent e) {
         if(clickedOb != null) {
-            if (clickedOb.isPointIn(e.getX(), e.getY())) {
+            if (clickedOb.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 clickedOb.onRelease();
                 engine.onRelease(clickedOb);
             }

@@ -11,6 +11,8 @@ public class MainClass extends jslEngine {
     private MainClass() {
         start("jsl Tests", 600, 400);
 
+        jsl.translate(60, 60);
+
         jsl.add(new jslObject(100, 100, 100, 50) {
             private Color[] col;
             private int index = 0;
@@ -19,6 +21,7 @@ public class MainClass extends jslEngine {
                 col = new Color[2];
                 col[0] = new Color(255, 255, 255);
                 col[1] = new Color(128, 0, 255);
+                this.translateX(200);
             }
             public void onEnter() {
                 index = 1;
@@ -28,7 +31,7 @@ public class MainClass extends jslEngine {
             }
             public void render(Graphics g) {
                 g.setColor(col[index]);
-                g.fillRect((int)x, (int)y, (int)w, (int)h);
+                g.fillRect((int)getX(), (int)getY(), (int)w, (int)h);
             }
         });
 
