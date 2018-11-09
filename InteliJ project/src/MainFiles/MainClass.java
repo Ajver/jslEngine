@@ -9,7 +9,7 @@ import java.awt.Color;
 public class MainClass extends jslEngine {
 
     private MainClass() {
-        start("jsl Tests", 600, 400);
+        start("jsl Tests", 600, 400, WindowType.jslStatic);
 
         //jslObject r = new Rect(300, 300, 200, 25);
 

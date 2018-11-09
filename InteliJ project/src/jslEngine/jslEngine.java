@@ -18,9 +18,10 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected abstract void update(float et);
     protected abstract void render(Graphics g);
 
-    // After create all elements (on the end of constructor)
+    // After create all elements (on the end of constructor) ( --DO NOT-- override)
     protected void onCreate() {}
 
+    // Events (to override)
     protected void onKeyPressed() {}
     protected void onKeyReleased() {}
     protected void onKeyTyped() {}
@@ -32,7 +33,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onMouseDragged() {}
     protected void onMouseMoved() {}
 
-    // Events on some jslObject (when mouse do something) (to override)
+    // Mouse events on specific jslObject (to override)
     protected void onMove(jslObject o) {}
     protected void onDrag(jslObject o) {}
     protected void onEnter(jslObject o) {}
@@ -40,8 +41,14 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onClick(jslObject o) {}
     protected void onUnclick(jslObject o) {}
 
+    // Functions that may be helpful ( --DO NOT-- override)
+    public int WW() { return getWidth(); }
+    public int WH() { return getHeight(); }
+    public int getFpsCount() { return fps; }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Which type is created window
     public enum WindowType {
         jslNormal, // Resizable
         jslStatic, // No resizable
@@ -104,8 +111,25 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         this.setSize(WW, WH);
         this.frame.setSize(WW, WH);
     }
+    private int defaultW = 400, defaultH = 300;
+    private String defaultTitle = "jsl Application";
     protected void start() {
-        start("jsl Application", 400, 300);
+        start(defaultTitle);
+    }
+    protected void start(String title) {
+        start(title, defaultW, defaultH);
+    }
+    protected void start(WindowType type) {
+        start(defaultW, defaultH, type);
+    }
+    protected void start(int w, int h) {
+        start(defaultTitle, w, h);
+    }
+    protected void start(int w, int h, WindowType type) {
+        start(defaultTitle, w, h, type);
+    }
+    protected void start(String title, WindowType type) {
+        start(title, defaultW, defaultH, type);
     }
     protected void start(String title, int w, int h) {
         start(title, w, h, WindowType.jslStatic);
@@ -136,11 +160,10 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
         Graphics g = bs.getDrawGraphics();
         if(antialiasing) {
-            Graphics2D g2 = (Graphics2D)g;
             RenderingHints rh = new RenderingHints(
                     RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHints(rh);
+            ((Graphics2D)g).setRenderingHints(rh);
         }
         g.setColor(new Color(30, 30, 30));
         g.fillRect(0, 0, WW(), WH());
@@ -184,8 +207,4 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public void mouseReleased(MouseEvent e) { this.mouse = e; jsl.mouseReleased(e); onMouseReleased(); }
     public void mouseDragged(MouseEvent e) { this.mouse = e; jsl.mouseDragged(e); onMouseDragged(); }
     public void mouseMoved(MouseEvent e) { this.mouse = e; jsl.mouseMoved(e); onMouseMoved(); }
-
-    public int WW() { return getWidth(); }
-    public int WH() { return getHeight(); }
-    public int getFpsCount() { return fps; }
 }
