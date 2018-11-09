@@ -204,7 +204,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         }
     }
 
-    // DO NOT override those functions!
+    // ( --DO NOT-- override)
     public void keyPressed(KeyEvent e) { this.key = e; onKeyPressed(); }
     public void keyReleased(KeyEvent e) { this.key = e; onKeyReleased(); }
     public void keyTyped(KeyEvent e) { this.key = e; onKeyTyped(); }
