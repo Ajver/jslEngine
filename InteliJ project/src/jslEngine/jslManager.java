@@ -19,12 +19,7 @@ public class jslManager {
         translateX(tx);
         translateY(ty);
     }
-    public void translateX(float tx) {
-        this.translateX += tx;
-        for(jslObject o : objects) {
-            o.translateX(tx);
-        }
-    }
+    public void translateX(float tx) { this.translateX += tx; }
     public void translateY(float ty) { this.translateY += ty; }
     public void setTranslate(float tx, float ty) {
         setTranslateX(tx);
@@ -44,11 +39,15 @@ public class jslManager {
                 g.setColor(new Color(30, 30, 30));
                 g.fillRect(0, 0, engine.WW(), engine.WH());
             }
-            g.translate((int) translateX, (int) translateY);
+            if(isTranslating) {
+                g.translate((int) translateX, (int) translateY);
+            }
             for (jslObject o : objects) {
                 o.render(g);
             }
-            g.translate(-(int) translateX, -(int) translateY);
+            if(isTranslating) {
+                g.translate(-(int) translateX, -(int) translateY);
+            }
         }
     }
     public void mouseMoved(MouseEvent e) {
