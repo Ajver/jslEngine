@@ -18,10 +18,7 @@ public class MainClass extends jslEngine {
                 this.index = 1;
                 col = new Color[2];
                 col[0] = new Color(255, 255, 255);
-                col[1] = new Color(255, 0, 255);
-            }
-            public void onClick() {
-                System.out.println("hello world xD!");
+                col[1] = new Color(128, 0, 255);
             }
             public void onEnter() {
                 index = 1;
@@ -46,7 +43,7 @@ public class MainClass extends jslEngine {
 //        }
     }
 
-    protected void onClick(jslObject o) {
+    protected void onPress(jslObject o) {
 
     }
 

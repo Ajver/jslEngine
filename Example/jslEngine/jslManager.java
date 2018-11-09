@@ -6,13 +6,14 @@ import java.util.LinkedList;
 
 public class jslManager {
     private jslEngine engine;
-    private boolean autorender = true, autoupdate = true;
+    private boolean autoRender = true, autoUpdate = true, autoClearScreen = true;
     private float translateX = 0, translateY = 0;
     private jslObject clickedOb = null;
     private LinkedList<jslObject> objects = new LinkedList<>();
     public jslManager(jslEngine engine) { this.engine = engine; }
-    public void setAutorender(boolean flag) { this.autorender = flag; }
-    public void setAutoupdate(boolean flag) { this.autoupdate = flag; }
+    public void setAutoRender(boolean flag) { this.autoRender = flag; }
+    public void setAutoUpdate(boolean flag) { this.autoUpdate = flag; }
+    public void setAutoClearScreen(boolean flag) { this.autoClearScreen = flag; }
     public void translate(float tx, float ty) {
         translateX(tx);
         translateY(ty);
@@ -31,9 +32,13 @@ public class jslManager {
     public void setTranslateX(float tx) { this.translateX = tx; }
     public void setTranslateY(float ty) { this.translateY = ty; }
     public void add(jslObject o) { objects.add(o); }
-    public void update(float et) { if(autoupdate) { for(jslObject o : objects) { o.update(et); } } }
+    public void update(float et) { if(autoUpdate) { for(jslObject o : objects) { o.update(et); } } }
     public void render(Graphics g) {
-        if(autorender) {
+        if(autoRender) {
+            if(autoClearScreen) {
+                g.setColor(new Color(30, 30, 30));
+                g.fillRect(0, 0, engine.WW(), engine.WH());
+            }
             g.translate((int) translateX, (int) translateY);
             for (jslObject o : objects) {
                 o.render(g);
@@ -79,8 +84,8 @@ public class jslManager {
             jslObject o = objects.get(i);
             if(o.isPointIn(e.getX(), e.getY())) {
                 clickedOb = o;
-                o.onClick();
-                engine.onClick(o);
+                o.onPress();
+                engine.onPress(o);
                 return;
             }
         }
@@ -88,8 +93,8 @@ public class jslManager {
     public void mouseReleased(MouseEvent e) {
         if(clickedOb != null) {
             if (clickedOb.isPointIn(e.getX(), e.getY())) {
-                clickedOb.onUnclick();
-                engine.onUnclick(clickedOb);
+                clickedOb.onRelease();
+                engine.onRelease(clickedOb);
             }
             clickedOb = null;
         }

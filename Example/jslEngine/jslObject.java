@@ -143,8 +143,8 @@ public class jslObject {
     }
     public void onEnter() {}
     public void onLeave() {}
-    public void onClick() {}
-    public void onUnclick() {}
+    public void onPress() {}
+    public void onRelease() {}
     public void onMove() {}
     public void onDrag() {}
 }
