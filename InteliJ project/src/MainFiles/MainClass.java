@@ -20,9 +20,6 @@ public class MainClass extends jslEngine {
                 col[0] = new Color(255, 255, 255);
                 col[1] = new Color(255, 0, 255);
             }
-            public void onClick() {
-                System.out.println("hello world xD!");
-            }
             public void onEnter() {
                 index = 1;
             }

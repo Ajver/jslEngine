@@ -70,6 +70,16 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void setWindowTitle(String title) {
         frame.setTitle(title);
     }
+    protected void setWindowPosition(int x, int y) {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int sw = (int)tk.getScreenSize().getWidth();
+        int sh = (int)tk.getScreenSize().getHeight();
+        if(x < 0) x = 0;
+        else if(x+WW() > sw) x = sw - WW();
+        if(y < 0) y = 0;
+        else if(y+WH() > sh) y = sh - WH();
+        frame.setLocation(x, y);
+    }
     protected void setAntialiasing(boolean flag) { antialiasing = flag; }
     protected void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
