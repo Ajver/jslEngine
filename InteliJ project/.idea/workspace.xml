@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f2efc7c-9dab-4c9a-beff-827bc9e632eb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jslEngine.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/MainFiles/MainClass$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/MainFiles/MainClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/MainFiles/Rect.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/jslEngine/jslEngine$WindowType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/jslEngine/jslEngine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/jslEngine/jslManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/jslEngine/jslEngine/jslObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/MainFiles/MainClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/MainFiles/Rect.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/jslEngine/jslEngine.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/jslEngine/jslManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/jslEngine/jslObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/jslEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/jslManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/jslObject.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,7 +70,18 @@
         <counts>
           <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -94,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="13" column="18" lean-forward="true" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -191,6 +189,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -228,9 +227,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -283,13 +281,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.15405117" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.15565032" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -297,7 +296,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.2624729" />
+      <window_info anchor="bottom" id="Run" order="6" visible="true" weight="0.2624729" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -335,21 +334,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3165">
           <caret line="2268" column="16" selection-start-line="2263" selection-end-line="2324" />
-          <folding>
-            <element signature="e#74817#74818#0" expanded="true" />
-            <element signature="e#74854#74855#0" expanded="true" />
-            <element signature="e#77478#77479#0" expanded="true" />
-            <element signature="e#77522#77523#0" expanded="true" />
-            <element signature="e#84656#84657#0" expanded="true" />
-            <element signature="e#84684#84685#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainFiles/MainClass.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="13" column="18" lean-forward="true" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
         </state>
       </provider>
     </entry>

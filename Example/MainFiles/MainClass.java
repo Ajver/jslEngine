@@ -11,10 +11,6 @@ public class MainClass extends jslEngine {
     private MainClass() {
         start("jsl Tests", 600, 400);
 
-        //jslObject r = new Rect(300, 300, 200, 25);
-
-        //jsl.add(r);
-
         jsl.add(new jslObject(100, 100, 100, 50) {
             private Color[] col;
             private int index = 0;
