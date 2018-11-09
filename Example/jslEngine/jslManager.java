@@ -103,4 +103,15 @@ public class jslManager {
             clickedOb = null;
         }
     }
+    public LinkedList<jslObject> getObjects() { return objects; }
+    public jslObject getObject(int i) { return objects.get(i); }
+    public void removeObject(int i) { objects.remove(i); }
+    public void removeObject(jslObject o) {
+        for(int i=objects.size()-1; i>=0; i--) {
+            if(getObject(i) == o) {
+                removeObject(i);
+            }
+        }
+    }
+    public void removeAllObjects() { objects.clear(); }
 }
