@@ -50,7 +50,7 @@ public class MainClass extends jslEngine {
 //        }
     }
 
-    protected void onClick(jslObject o) {
+    protected void onPress(jslObject o) {
 
     }
 

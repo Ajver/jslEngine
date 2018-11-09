@@ -38,8 +38,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onDrag(jslObject o) {}
     protected void onEnter(jslObject o) {}
     protected void onLeave(jslObject o) {}
-    protected void onClick(jslObject o) {}
-    protected void onUnclick(jslObject o) {}
+    protected void onPress(jslObject o) {}
+    protected void onRelease(jslObject o) {}
 
     // Functions that may be helpful ( --DO NOT-- override)
     public int WW() { return getWidth(); }
@@ -54,9 +54,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         jslStatic, // No resizable
         jslFullscreen
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     // Private variables used to run
     private static final long serialVersionUID = 8619356773422621193L;
     private boolean isRunning = false;
@@ -165,8 +162,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
                     RenderingHints.VALUE_ANTIALIAS_ON);
             ((Graphics2D)g).setRenderingHints(rh);
         }
-        g.setColor(new Color(30, 30, 30));
-        g.fillRect(0, 0, WW(), WH());
         jsl.render(g);
         render(g);
         g.dispose();
