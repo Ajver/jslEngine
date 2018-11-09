@@ -58,6 +58,8 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private static final long serialVersionUID = 8619356773422621193L;
     private boolean isRunning = false;
     private boolean isWindow = false;
+    private int defaultW = 400, defaultH = 300;
+    private String defaultTitle = "jsl Application";
     private JFrame frame;
     private Thread thread;
 
@@ -65,6 +67,9 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private int fps = 0;
 
     // Functions for window controlling
+    protected void setWindowTitle(String title) {
+        frame.setTitle(title);
+    }
     protected void setAntialiasing(boolean flag) { antialiasing = flag; }
     protected void createWindow(String title, int w, int h, WindowType type) {
         if(isWindow) return;
@@ -108,8 +113,6 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         this.setSize(WW, WH);
         this.frame.setSize(WW, WH);
     }
-    private int defaultW = 400, defaultH = 300;
-    private String defaultTitle = "jsl Application";
     protected void start() {
         start(defaultTitle);
     }
