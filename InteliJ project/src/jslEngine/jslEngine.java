@@ -58,7 +58,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private static final long serialVersionUID = 8619356773422621193L;
     private boolean isRunning = false;
     private boolean isWindow = false;
-    private int defaultW = 400, defaultH = 300;
+    private int defaultW = 600, defaultH = 400;
     private String defaultTitle = "jsl Application";
     private JFrame frame;
     private Thread thread;
