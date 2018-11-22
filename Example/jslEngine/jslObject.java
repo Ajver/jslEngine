@@ -1,6 +1,7 @@
 package jslEngine;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class jslObject {
     protected boolean isTranslating = true;
@@ -146,4 +147,10 @@ public class jslObject {
     public void onRelease() {}
     public void onMove() {}
     public void onDrag() {}
+    public void onEnter(MouseEvent e) {}
+    public void onLeave(MouseEvent e) {}
+    public void onPress(MouseEvent e) {}
+    public void onRelease(MouseEvent e) {}
+    public void onMove(MouseEvent e) {}
+    public void onDrag(MouseEvent e) {}
 }

@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
+import java.util.LinkedList;
 
 public abstract class jslEngine extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
     // Those variables are for Your using
-    public KeyEvent key = null;
-    public MouseEvent mouse = null;
+    public boolean[] mouseButton = new boolean[3];
+    public int mouseX = 0, mouseY = 0;
     public jslManager jsl;
     private WindowType windowType;
     private boolean antialiasing = false;
@@ -22,24 +23,31 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     protected void onCreate() {}
 
     // Events (to override)
-    protected void onKeyPressed() {}
-    protected void onKeyReleased() {}
-    protected void onKeyTyped() {}
-    protected void onMouseClicked() {}
-    protected void onMouseEntered() {}
-    protected void onMouseExited() {}
-    protected void onMousePressed() {}
-    protected void onMouseReleased() {}
-    protected void onMouseDragged() {}
-    protected void onMouseMoved() {}
+    protected void onKeyPressed(KeyEvent e) {}
+    protected void onKeyReleased(KeyEvent e) {}
+    protected void onKeyTyped(KeyEvent e) {}
+    protected void onMouseClicked(MouseEvent e) {}
+    protected void onMouseEntered(MouseEvent e) {}
+    protected void onMouseExited(MouseEvent e) {}
+    protected void onMousePressed(MouseEvent e) {}
+    protected void onMouseReleased(MouseEvent e) {}
+    protected void onMouseDragged(MouseEvent e) {}
+    protected void onMouseMoved(MouseEvent e) {}
 
-    // Mouse events on specific jslObject (to override)
+    // Events, when mouse do something on specific jslObject (to override)
     protected void onMove(jslObject o) {}
     protected void onDrag(jslObject o) {}
     protected void onEnter(jslObject o) {}
     protected void onLeave(jslObject o) {}
     protected void onPress(jslObject o) {}
     protected void onRelease(jslObject o) {}
+
+    protected void onMove(jslObject o, MouseEvent e) {}
+    protected void onDrag(jslObject o, MouseEvent e) {}
+    protected void onEnter(jslObject o, MouseEvent e) {}
+    protected void onLeave(jslObject o, MouseEvent e) {}
+    protected void onPress(jslObject o, MouseEvent e) {}
+    protected void onRelease(jslObject o, MouseEvent e) {}
 
     // Functions that may be helpful ( --DO NOT-- override)
     public int WW() { return getWidth(); }
@@ -161,6 +169,7 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     private void jslUpdate(float et) {
         jsl.update(et);
         update(et);
+        executeEvents();
     }
     private void jslRender() {
         BufferStrategy bs = this.getBufferStrategy();
@@ -203,16 +212,67 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
             }
         }
     }
+    private LinkedList<Event> events = new LinkedList<>();
+    private boolean isExecuting = false;
+    private enum EventType {
+        M_CLICK,
+        M_PRESS,
+        M_RELEASE,
+        M_MOVE,
+        M_DRAG,
+        M_ENTER,
+        M_EXIT,
+        K_PRESS,
+        K_RELEASE,
+        K_TYPE,
+    }
+    private class Event {
+        public EventType type;
+        public MouseEvent mouse;
+        public KeyEvent key;
+        public Event(EventType t) { type = t; }
+        public Event(EventType t, MouseEvent e) { this(t); mouse = e; key = null; }
+        public Event(EventType t, KeyEvent e) { this(t); mouse = null; key = e; }
+    }
+    private void executeEvents() {
+        isExecuting = true;
+        for(Event e : events) {
+            switch (e.type) {
+                case K_PRESS:   onKeyPressed(e.key);       break;
+                case K_RELEASE: onKeyReleased(e.key);      break;
+                case K_TYPE:    onKeyTyped(e.key);         break;
+                case M_ENTER:   onMouseEntered(e.mouse);   break;
+                case M_EXIT:    onMouseExited(e.mouse);    break;
+                case M_CLICK:   onMouseClicked(e.mouse);   break;
+                case M_PRESS:   onMousePressed(e.mouse);   jsl.mousePressed(e.mouse);  break;
+                case M_RELEASE: onMouseReleased(e.mouse);  jsl.mouseReleased(e.mouse); break;
+                case M_MOVE:    onMouseMoved(e.mouse);     jsl.mouseMoved(e.mouse);    break;
+                case M_DRAG:    onMouseDragged(e.mouse);   jsl.mouseDragged(e.mouse);  break;
+            }
+        }
+        events.clear();
+        isExecuting = false;
+    }
+    private void addEvent(Event e) {
+        // It's possible to have only one event of one type at one frame
+        // But still have many events of different types
+        //if(!events.contains(e)) {
+        //    events.add(e);
+        //}
+        if(!isExecuting) {
+            events.add(e);
+        }
+    }
 
     // ( --DO NOT-- override)
-    public void keyPressed(KeyEvent e) { this.key = e; onKeyPressed(); }
-    public void keyReleased(KeyEvent e) { this.key = e; onKeyReleased(); }
-    public void keyTyped(KeyEvent e) { this.key = e; onKeyTyped(); }
-    public void mouseClicked(MouseEvent e) { this.mouse = e; onMouseClicked(); }
-    public void mouseEntered(MouseEvent e) { this.mouse = e; onMouseEntered(); }
-    public void mouseExited(MouseEvent e) { this.mouse = e; onMouseExited(); }
-    public void mousePressed(MouseEvent e) { this.mouse = e; jsl.mousePressed(e); onMousePressed(); }
-    public void mouseReleased(MouseEvent e) { this.mouse = e; jsl.mouseReleased(e); onMouseReleased(); }
-    public void mouseDragged(MouseEvent e) { this.mouse = e; jsl.mouseDragged(e); onMouseDragged(); }
-    public void mouseMoved(MouseEvent e) { this.mouse = e; jsl.mouseMoved(e); onMouseMoved(); }
+    public void keyPressed(KeyEvent e)      { addEvent(new Event(EventType.K_PRESS, e)); }
+    public void keyReleased(KeyEvent e)     { addEvent(new Event(EventType.K_RELEASE, e)); }
+    public void keyTyped(KeyEvent e)        { addEvent(new Event(EventType.K_TYPE, e)); }
+    public void mouseClicked(MouseEvent e)  { addEvent(new Event(EventType.M_CLICK, e)); }
+    public void mouseEntered(MouseEvent e)  { addEvent(new Event(EventType.M_ENTER, e)); }
+    public void mouseExited(MouseEvent e)   { addEvent(new Event(EventType.M_EXIT, e)); }
+    public void mousePressed(MouseEvent e)  { addEvent(new Event(EventType.M_PRESS, e)); mouseButton[e.getButton()-1] = true; }
+    public void mouseReleased(MouseEvent e) { addEvent(new Event(EventType.M_RELEASE, e)); mouseButton[e.getButton()-1] = false; }
+    public void mouseDragged(MouseEvent e)  { addEvent(new Event(EventType.M_DRAG, e)); mouseX = e.getX(); mouseY = e.getY(); }
+    public void mouseMoved(MouseEvent e)    { addEvent(new Event(EventType.M_MOVE, e)); mouseX = e.getX(); mouseY = e.getY(); }
 }

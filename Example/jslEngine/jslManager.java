@@ -55,32 +55,42 @@ public class jslManager {
             jslObject o = objects.get(i);
             if (o.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 o.onMove();
+                o.onMove(e);
                 engine.onMove(o);
+                engine.onMove(o, e);
                 if (!o.hover) {
                     o.hover = true;
                     o.onEnter();
+                    o.onEnter(e);
                     engine.onEnter(o);
+                    engine.onEnter(o, e);
                 }
                 for(i=i-1; i>=0; i--) {
                     o = objects.get(i);
                     if(o.hover) {
                         o.hover = false;
                         o.onLeave();
+                        o.onLeave(e);
                         engine.onLeave(o);
+                        engine.onLeave(o, e);
                     }
                 }
                 return;
             } else if (o.hover) {
                 o.hover = false;
                 o.onLeave();
+                o.onLeave(e);
                 engine.onLeave(o);
+                engine.onLeave(o, e);
             }
         }
     }
     public void mouseDragged(MouseEvent e) {
         if(clickedOb != null) {
             clickedOb.onDrag();
+            clickedOb.onDrag(e);
             engine.onDrag(clickedOb);
+            engine.onDrag(clickedOb, e);
         }
     }
     public void mousePressed(MouseEvent e) {
@@ -89,7 +99,9 @@ public class jslManager {
             if(o.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 clickedOb = o;
                 o.onPress();
+                o.onPress(e);
                 engine.onPress(o);
+                engine.onPress(o, e);
                 return;
             }
         }
@@ -98,7 +110,9 @@ public class jslManager {
         if(clickedOb != null) {
             if (clickedOb.isPointIn(e.getX()-getTranslateX(), e.getY()-getTranslateY())) {
                 clickedOb.onRelease();
+                clickedOb.onRelease(e);
                 engine.onRelease(clickedOb);
+                engine.onRelease(clickedOb, e);
             }
             clickedOb = null;
         }
