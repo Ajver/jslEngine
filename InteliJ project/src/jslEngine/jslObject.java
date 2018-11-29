@@ -1,6 +1,7 @@
 package jslEngine;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class jslObject {
     protected boolean isTranslating = true;
@@ -87,6 +88,11 @@ public class jslObject {
         this.minH = minH;
         isMinH = true;
     }
+    public void setVel(float x, float y) {
+        this.setVelX(x);
+        this.setVelY(y);
+    }
+    public void setVel(jslVector2 v) { this.setVel(v.x, v.y); }
     public void setVelX(float velX) { this.velX = velX; }
     public void setVelY(float velY) { this.velY = velY; }
     public void setVelR(float velR) { this.velR = velR; }
@@ -146,4 +152,10 @@ public class jslObject {
     public void onRelease() {}
     public void onMove() {}
     public void onDrag() {}
+    public void onEnter(MouseEvent e) {}
+    public void onLeave(MouseEvent e) {}
+    public void onPress(MouseEvent e) {}
+    public void onRelease(MouseEvent e) {}
+    public void onMove(MouseEvent e) {}
+    public void onDrag(MouseEvent e) {}
 }

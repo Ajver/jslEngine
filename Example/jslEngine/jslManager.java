@@ -1,6 +1,7 @@
 package jslEngine;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
@@ -11,6 +12,7 @@ public class jslManager {
     private float translateX = 0, translateY = 0;
     private jslObject clickedOb = null;
     private LinkedList<jslObject> objects = new LinkedList<>();
+    private LinkedList<jslKeyInput> keyInputs = new LinkedList<>();
     public jslManager(jslEngine engine) { this.engine = engine; }
     public void setAutoRender(boolean flag) { this.autoRender = flag; }
     public void setAutoUpdate(boolean flag) { this.autoUpdate = flag; }
@@ -31,7 +33,6 @@ public class jslManager {
     public float getTranslateY() { return (isTranslating ? translateY : 0); }
     public void setIsTranslating(boolean flag) { this.isTranslating = flag; }
     public boolean getIsTranslating(boolean flag) { return this.isTranslating; }
-    public void add(jslObject o) { objects.add(o); }
     public void update(float et) { if(autoUpdate) { for(jslObject o : objects) { o.update(et); } } }
     public void render(Graphics g) {
         if(autoRender) {
@@ -117,8 +118,10 @@ public class jslManager {
             clickedOb = null;
         }
     }
+    public void add(jslObject o) { objects.add(o); }
     public LinkedList<jslObject> getObjects() { return objects; }
     public jslObject getObject(int i) { return objects.get(i); }
+    public void removeAllObjects() { objects.clear(); }
     public void removeObject(int i) { objects.remove(i); }
     public void removeObject(jslObject o) {
         for(int i=objects.size()-1; i>=0; i--) {
@@ -127,5 +130,31 @@ public class jslManager {
             }
         }
     }
-    public void removeAllObjects() { objects.clear(); }
+    public void keyPressed(KeyEvent e) {
+        for(jslKeyInput k : keyInputs) {
+            k.onPress(e);
+        }
+    }
+    public void keyReleased(KeyEvent e) {
+        for(jslKeyInput k : keyInputs) {
+            k.onRelease(e);
+        }
+    }
+    public void keyTyped(KeyEvent e) {
+        for(jslKeyInput k : keyInputs) {
+            k.onType(e);
+        }
+    }
+    public void add(jslKeyInput k) { keyInputs.add(k); }
+    public LinkedList<jslKeyInput> getKeyInputs() { return keyInputs; }
+    public jslKeyInput getKeyInput(int i) { return keyInputs.get(i); }
+    public void removeAllKeyInputs() { keyInputs.clear(); }
+    public void removeKeyInput(int i) { keyInputs.remove(i); }
+    public void removeKeyInput(jslKeyInput k) {
+        for(int i=keyInputs.size()-1; i>=0; i--) {
+            if(getKeyInput(i) == k) {
+                removeKeyInput(i);
+            }
+        }
+    }
 }
