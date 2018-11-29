@@ -96,7 +96,7 @@ public class jslObject {
     public void setVelX(float velX) { this.velX = velX; }
     public void setVelY(float velY) { this.velY = velY; }
     public void setVelR(float velR) { this.velR = velR; }
-    public void setRotateToCenter() { setRotatePosition(getX() + getW()/2.0f, getY() + getH()/2.0f);}
+    public void setRotateToCenter() { setRotatePosition(getW() * 0.5f, getH() * 0.5f); }
     public void setRotate(float rotate) { this.rotate = rotate; }
     public void setRotatePosition(float rx, float ry) {
         setRotateX(rx);
@@ -134,6 +134,16 @@ public class jslObject {
         x += velX * et;
         y += velY * et;
         rotate += velR * et;
+    }
+    public void beforeRender(Graphics g) {
+        if(rotate != 0.0f) {
+            ((Graphics2D)g).rotate(getRotate(), getX() + getRotateX(), getY() + getRotateY());
+        }
+    }
+    public void afterRender(Graphics g) {
+        if(rotate != 0.0f) {
+            ((Graphics2D)g).rotate(-getRotate(), getX() + getRotateX(), getY() + getRotateY());
+        }
     }
     protected void render(Graphics g) {}
     public boolean isPointIn(float px, float py) {
