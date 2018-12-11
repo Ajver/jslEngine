@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public abstract class jslEngine extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
@@ -12,67 +12,65 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public boolean[] mouseButton = new boolean[3];
     public int mouseX = 0, mouseY = 0;
     public jslManager jsl;
+
     private WindowType windowType;
     private boolean antialiasing = false;
 
     // Those functions are to override
     protected abstract void update(float et);
+
+    // Before jslManager render
+    protected void beforeRender(Graphics g) {}
+
+    // After jslManager render
     protected abstract void render(Graphics g);
 
-    // After create all elements (on the end of constructor) ( --DO NOT-- override)
+    // After create all elements (on the end of constructor)
     protected void onCreate() {}
 
     // Events (to override)
+
+    // Key goes down
     protected void onKeyPressed(KeyEvent e) {}
+
+    // Key goes up
     protected void onKeyReleased(KeyEvent e) {}
+
+    // Key goes down (difference between key press:
+    // https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyListener.html )
     protected void onKeyTyped(KeyEvent e) {}
-    protected void onMouseClicked(MouseEvent e) {}
-    protected void onMouseEntered(MouseEvent e) {}
-    protected void onMouseExited(MouseEvent e) {}
+
+    // Mouse goes down
     protected void onMousePressed(MouseEvent e) {}
+
+    // Mouse goes up
     protected void onMouseReleased(MouseEvent e) {}
-    protected void onMouseDragged(MouseEvent e) {}
+
+    // Mouse goes down and up in the same place
+    protected void onMouseClicked(MouseEvent e) {}
+
+    // Mouse enter the application window
+    protected void onMouseEntered(MouseEvent e) {}
+
+    // Mouse exit the application window
+    protected void onMouseExited(MouseEvent e) {}
+
+    // Mouse moved (while all buttons are up)
     protected void onMouseMoved(MouseEvent e) {}
 
-    // Events, when mouse do something on specific jslObject (to override)
-    protected void onMove(jslObject o) {}
-    protected void onDrag(jslObject o) {}
-    protected void onEnter(jslObject o) {}
-    protected void onLeave(jslObject o) {}
-    protected void onPress(jslObject o) {}
-    protected void onRelease(jslObject o) {}
-
-    protected void onMove(jslObject o, MouseEvent e) {}
-    protected void onDrag(jslObject o, MouseEvent e) {}
-    protected void onEnter(jslObject o, MouseEvent e) {}
-    protected void onLeave(jslObject o, MouseEvent e) {}
-    protected void onPress(jslObject o, MouseEvent e) {}
-    protected void onRelease(jslObject o, MouseEvent e) {}
+    // Mouse dragged (moved while button is pressed)
+    protected void onMouseDragged(MouseEvent e) {}
 
     // Functions that may be helpful ( --DO NOT-- override)
+
+    // Window Width
     public int WW() { return getWidth(); }
+
+    // Window Height
     public int WH() { return getHeight(); }
+
+    // Frames in previous frame
     public int getFpsCount() { return fps; }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Which type is created window
-    public enum WindowType {
-        jslNormal, // Resizable
-        jslStatic, // No resizable
-        jslFullscreen
-    }
-    // Private variables used to run
-    private static final long serialVersionUID = 8619356773422621193L;
-    private boolean isRunning = false;
-    private boolean isWindow = false;
-    private int defaultW = 600, defaultH = 400;
-    private String defaultTitle = "jsl Application";
-    private JFrame frame;
-    private Thread thread;
-
-    // Private help variables
-    private int fps = 0;
 
     // Functions for window controlling
     protected void setWindowTitle(String title) {
@@ -82,55 +80,73 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         Toolkit tk = Toolkit.getDefaultToolkit();
         int sw = (int)tk.getScreenSize().getWidth();
         int sh = (int)tk.getScreenSize().getHeight();
+
+        // Fit window to screen
         if(x < 0) x = 0;
         else if(x+WW() > sw) x = sw - WW();
+
         if(y < 0) y = 0;
         else if(y+WH() > sh) y = sh - WH();
+
         frame.setLocation(x, y);
     }
     protected void setAntialiasing(boolean flag) { antialiasing = flag; }
     protected void createWindow(String title, int w, int h, WindowType type) {
-        if(isWindow) return;
-        windowType = type;
+        // Do override multiply windows
+        if(isWindow) {
+            return;
+        }
+
         isWindow = true;
+        windowType = type;
         frame = new JFrame(title);
-        if(type == WindowType.jslFullscreen) {
+
+        if(type == WindowType.FULLSCREEN) {
+            // Remove default bar on top (with exit button, title...)
             frame.setUndecorated(true);
         }
+
         frame.add(this);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
         resizeWindow(w, h);
     }
     protected void resizeWindow(int w, int h) {
+        // If trying to set the same size
         if(w == WW()) {
             if(h == WH()) {
                 return;
             }
         }
+
         Toolkit tk = Toolkit.getDefaultToolkit();
         int WW, WH, sw, sh;
         sw = (int)tk.getScreenSize().getWidth();
         sh = (int)tk.getScreenSize().getHeight();
-        if(this.windowType == WindowType.jslStatic) {
+
+        if(this.windowType == WindowType.STATIC) {
             WW = w + 6;
             WH = h + 29;
-            this.frame.setResizable(false);
-        }else if(this.windowType == WindowType.jslNormal) {
+            frame.setResizable(false);
+        }else if(this.windowType == WindowType.NORMAL) {
             WW = w + 16;
             WH = h + 39;
         }else {
             WW = sw;
             WH = sh;
-            this.frame.setResizable(false);
+            frame.setResizable(false);
         }
-        if(this.windowType != WindowType.jslFullscreen) {
-            this.frame.setLocation((sw - WW) / 2, (sh - WH) / 2);
+        if(this.windowType != WindowType.FULLSCREEN) {
+            frame.setLocation((sw - WW) / 2, (sh - WH) / 2);
         }
-        this.setSize(WW, WH);
-        this.frame.setSize(WW, WH);
+
+        setSize(WW, WH);
+        frame.setSize(WW, WH);
     }
+
+    // Default creators
     protected void start() {
         start(defaultTitle);
     }
@@ -150,21 +166,19 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         start(title, defaultW, defaultH, type);
     }
     protected void start(String title, int w, int h) {
-        start(title, w, h, WindowType.jslStatic);
+        start(title, w, h, WindowType.STATIC);
     }
     protected void start(String title, int w, int h, WindowType type) {
         if(isRunning) return;
-        this.createWindow(title, w, h, type);
-        this.isRunning = true;
-        this.addKeyListener(this);
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
-        this.thread = new Thread(this);
-        this.jsl = new jslManager(this);
+        createWindow(title, w, h, type);
+        isRunning = true;
+        addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        thread = new Thread(this);
+        jsl = new jslManager(this);
 
-        this.onCreate();
-
-        this.thread.start();
+        thread.start();
     }
     private void jslUpdate(float et) {
         jsl.update(et);
@@ -173,47 +187,74 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     }
     private void jslRender() {
         BufferStrategy bs = this.getBufferStrategy();
+
         if(bs == null) {
             this.createBufferStrategy(3);
             return;
         }
+
         Graphics g = bs.getDrawGraphics();
+
         if(antialiasing) {
-            RenderingHints rh = new RenderingHints(
+            ((Graphics2D)g).setRenderingHints(new RenderingHints(
                     RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            ((Graphics2D)g).setRenderingHints(rh);
+                    RenderingHints.VALUE_ANTIALIAS_ON));
         }
+
+        beforeRender(g);
         jsl.render(g);
         render(g);
+
         g.dispose();
         bs.show();
     }
 
+    private void changeCursor() {
+        if(jslCursor.cursorChanged) {
+            setCursor(jslCursor.cursor);
+            jslCursor.reset();
+        }
+    }
+
     // Main loop
     public void run() {
-        this.requestFocus();
-        long start = 0;
-        long stop = 0;
+        requestFocus();
+        onCreate();
+
+        // Need for counting elapsed time
+        long start, stop;
+
+        // Elapsed time from previous frame
         float elapsedTime = 0.0f;
-        long fpsTimer = System.currentTimeMillis();
+
+        // Timer to updating FPS
+        jslTimer fpsTimer = new jslTimer(1.0f);
+        fpsTimer.start();
+
         int fpsCounter = 0;
+
         while(isRunning) {
             start = System.currentTimeMillis();
+
             this.jslUpdate(elapsedTime);
             this.jslRender();
+
+            changeCursor();
             fpsCounter++;
+
             stop = System.currentTimeMillis();
-            elapsedTime = (stop - start) / 1000.0f;
-            if(System.currentTimeMillis() >= fpsTimer) {
-                fpsTimer += 1000;
+
+            if(fpsTimer.update()) {
                 fps = fpsCounter;
                 fpsCounter = 0;
             }
+
+            elapsedTime = (stop - start) / 1000.0f;
         }
     }
-    private LinkedList<Event> events = new LinkedList<>();
-    private boolean isExecuting = false;
+
+    private ArrayList<Event> events = new ArrayList<>();
+
     private enum EventType {
         M_CLICK,
         M_PRESS,
@@ -226,42 +267,42 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
         K_RELEASE,
         K_TYPE,
     }
+
     private class Event {
         public EventType type;
         public MouseEvent mouse;
         public KeyEvent key;
-        public Event(EventType t) { type = t; }
-        public Event(EventType t, MouseEvent e) { this(t); mouse = e; key = null; }
-        public Event(EventType t, KeyEvent e) { this(t); mouse = null; key = e; }
+        public Event(EventType t, MouseEvent e) { type = t; mouse = e; key = null; }
+        public Event(EventType t, KeyEvent e) { type = t; mouse = null; key = e; }
     }
+
     private void executeEvents() {
-        isExecuting = true;
-        for(Event e : events) {
-            switch (e.type) {
-                case K_PRESS:   onKeyPressed(e.key);       jsl.keyPressed(e.key);       break;
-                case K_RELEASE: onKeyReleased(e.key);      jsl.keyReleased(e.key);      break;
-                case K_TYPE:    onKeyTyped(e.key);         jsl.keyTyped(e.key);         break;
-                case M_ENTER:   onMouseEntered(e.mouse);   break;
-                case M_EXIT:    onMouseExited(e.mouse);    break;
-                case M_CLICK:   onMouseClicked(e.mouse);   break;
-                case M_PRESS:   onMousePressed(e.mouse);   jsl.mousePressed(e.mouse);   break;
-                case M_RELEASE: onMouseReleased(e.mouse);  jsl.mouseReleased(e.mouse);  break;
-                case M_MOVE:    onMouseMoved(e.mouse);     jsl.mouseMoved(e.mouse);     break;
-                case M_DRAG:    onMouseDragged(e.mouse);   jsl.mouseDragged(e.mouse);   break;
+        for(int i=0; i<events.size(); i++) {
+            try {
+                Event e = events.get(i);
+
+                switch (e.type) {
+                    case K_PRESS:   onKeyPressed(e.key);       jsl.keyPressed(e.key);       break;
+                    case K_RELEASE: onKeyReleased(e.key);      jsl.keyReleased(e.key);      break;
+                    case K_TYPE:    onKeyTyped(e.key);         jsl.keyTyped(e.key);         break;
+                    case M_CLICK:   onMouseClicked(e.mouse);   jsl.mouseClicked(e.mouse);   break;
+                    case M_PRESS:   onMousePressed(e.mouse);   jsl.mousePressed(e.mouse);   break;
+                    case M_RELEASE: onMouseReleased(e.mouse);  jsl.mouseReleased(e.mouse);  break;
+                    case M_MOVE:    onMouseMoved(e.mouse);     jsl.mouseMoved(e.mouse);     break;
+                    case M_DRAG:    onMouseDragged(e.mouse);   jsl.mouseDragged(e.mouse);   break;
+                    case M_ENTER:   onMouseEntered(e.mouse);   break;
+                    case M_EXIT:    onMouseExited(e.mouse);    break;
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
         events.clear();
-        isExecuting = false;
     }
+
     private void addEvent(Event e) {
-        // It's possible to have only one event of one type at one frame
-        // But still have many events of different types
-        //if(!events.contains(e)) {
-        //    events.add(e);
-        //}
-        if(!isExecuting) {
-            events.add(e);
-        }
+        events.add(e);
     }
 
     // ( --DO NOT-- override)
@@ -275,4 +316,36 @@ public abstract class jslEngine extends Canvas implements Runnable, KeyListener,
     public void mouseReleased(MouseEvent e) { addEvent(new Event(EventType.M_RELEASE, e)); mouseButton[e.getButton()-1] = false; }
     public void mouseDragged(MouseEvent e)  { addEvent(new Event(EventType.M_DRAG, e)); mouseX = e.getX(); mouseY = e.getY(); }
     public void mouseMoved(MouseEvent e)    { addEvent(new Event(EventType.M_MOVE, e)); mouseX = e.getX(); mouseY = e.getY(); }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Which type is created window
+    public enum WindowType {
+        NORMAL, // Resizable
+        STATIC, // No resizable
+        FULLSCREEN
+    }
+
+    // Private variables used to run
+    private static final long serialVersionUID = 8619356773422621193L;
+
+    // Is main loop running
+    private boolean isRunning = false;
+
+    // Is window created
+    private boolean isWindow = false;
+
+    // Default window size
+    private int defaultW = 600, defaultH = 400;
+
+    // Default window title
+    private String defaultTitle = "jsl Application";
+
+    // Frame and main thread
+    private JFrame frame;
+    private Thread thread;
+
+    // fps counter
+    private int fps = 0;
+
 }

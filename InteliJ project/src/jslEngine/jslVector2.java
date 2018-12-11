@@ -67,6 +67,13 @@ public class jslVector2 {
         this.y -= a;
     }
 
+    public void rotate(float theta) {
+        float nx = (float)(x*Math.cos(theta) - y*Math.sin(theta));
+        float ny = (float)(x*Math.sin(theta) + y*Math.cos(theta));
+
+        set(nx, ny);
+    }
+
     public void set(jslVector2 v) {
         this.x = v.x;
         this.y = v.y;
